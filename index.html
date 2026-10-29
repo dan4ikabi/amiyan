@@ -228,13 +228,14 @@ function calc(i){
   const items=S.mand[st]||[];
   const mand=items.reduce((a,x)=>a+num(x.amount),0);
   const mandPaid=items.filter(x=>x.paid).reduce((a,x)=>a+num(x.amount),0);
-  const exps=S.exp.filter(e=>e.date>=st&&e.date<=en);
+  const allExps=S.exp.filter(e=>e.date>=st&&e.date<=en);
+  const exps=allExps.filter(isOwn);
   const other=exps.reduce((a,e)=>a+num(e.amount),0);
   const given=S.debts.filter(d=>d.kind==="given"&&d.date>=st&&d.date<=en).reduce((a,d)=>a+num(d.amount),0);
   const taken=S.debts.filter(d=>d.kind==="taken"&&d.date>=st&&d.date<=en).reduce((a,d)=>a+num(d.amount),0);
   const income=num(p.salary)+num(p.other);
   const closing=opening+income-mand-other-(given-taken);
-  return {st,en,opening,income,mand,mandPaid,unpaid:mand-mandPaid,other,exps,loans:given-taken,closing};
+  return {st,en,opening,income,mand,mandPaid,unpaid:mand-mandPaid,other,exps,allExps,loans:given-taken,closing};
 }
 // ---------- wallets ----------
 function curYm(){return ym(todayIso())}
@@ -255,7 +256,10 @@ function students(){
   return {recv,spent,bal:recv-spent,pending,exp};
 }
 function wBase(w){return w.type==="himmet"?himmet().collected:w.type==="students"?students().bal:0}
-function wAmt(w){return w.type==="manual"?num(w.amount):wBase(w)+num(w.adj)}
+const isOwn=e=>!e.src||e.src==="own";
+function wSpent(w){return S.exp.filter(e=>e.src===w.id).reduce((a,e)=>a+num(e.amount),0)}
+function wAmt(w){return (w.type==="manual"?num(w.amount):wBase(w)+num(w.adj))-wSpent(w)}
+function srcName(e){if(isOwn(e))return "Өз ақшам";const w=S.wallets.find(x=>x.id===e.src);return w?w.name:"өшірілген әмиян"}
 const hasW=t=>S.wallets.some(w=>w.type===t);
 const wName=t=>(S.wallets.find(w=>w.type===t)||{name:t}).name;
 function walletsTotal(){return S.wallets.reduce((a,w)=>a+wAmt(w),0)}
@@ -304,7 +308,7 @@ function vHome(){
   if(H.owed>0&&hasW("himmet"))alerts+=`<div class="alert b">ℹ︎<div>${esc(wName("himmet"))}: төленбеген жарна <b>${fmt(H.owed)}</b></div></div>`;
   const byCat={};c.exps.forEach(e=>byCat[e.cat]=(byCat[e.cat]||0)+num(e.amount));
   const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);const maxC=cats.length?cats[0][1]:1;
-  const recent=[...c.exps].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+  const recent=[...c.allExps].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
   return header("Әмиян")+periodBar()+`
   <div class="hero ${c.closing<0?"hneg":""}">
     <div class="lbl">Кезең соңындағы қалдық</div>
@@ -332,28 +336,30 @@ function vHome(){
   <div class="sec">Соңғы шығындар <button onclick="go('exp')">Барлығы</button></div>
   <div class="card">${recent.length?recent.map(expRow).join(""):'<div class="empty">Бұл кезеңде шығын жоқ. «+» батырмасын басыңыз.</div>'}</div>`;
 }
-function expRow(e){return `<div class="row" onclick="editExpense('${e.id}')"><div class="ic" style="background:${catColor(e.cat)}">${esc((e.cat||"?")[0])}</div><div class="mid"><b>${esc(e.note||e.cat)}</b><small>${esc(e.cat)} · ${dShort(e.date)}</small></div><div class="amt">${fmt(e.amount)}</div></div>`}
+function expRow(e){return `<div class="row" onclick="editExpense('${e.id}')"><div class="ic" style="background:${catColor(e.cat)}">${esc((e.cat||"?")[0])}</div><div class="mid"><b>${esc(e.note||e.cat)}</b><small>${esc(e.cat)} · ${dShort(e.date)}</small></div><div class="amt">${fmt(e.amount)}${isOwn(e)?"":`<small><span class="chip b" style="background:${(S.wallets.find(x=>x.id===e.src)||{}).color||"#64748b"};color:#fff">${esc(srcName(e))}</span></small>`}</div></div>`}
 let expFilter="Барлығы";
 function vExp(){
-  const c=calc(view);let list=[...c.exps].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
+  const c=calc(view);let list=[...c.allExps].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
   const usedCats=["Барлығы",...new Set(list.map(e=>e.cat))];
   if(!usedCats.includes(expFilter))expFilter="Барлығы";
   if(expFilter!=="Барлығы")list=list.filter(e=>e.cat===expFilter);
   const groups={};list.forEach(e=>(groups[e.date]=groups[e.date]||[]).push(e));
   const tot=list.reduce((a,e)=>a+num(e.amount),0);
   return header("Шығындар")+periodBar()+`
-  <div class="grid" style="margin-top:0"><div class="tile"><div class="t">Барлығы</div><div class="v">${fmt(tot)}</div></div><div class="tile"><div class="t">Жазба саны</div><div class="v">${list.length}</div></div></div>
+  <div class="grid" style="margin-top:0"><div class="tile"><div class="t">Өз ақшамнан</div><div class="v">${fmt(list.filter(isOwn).reduce((a,e)=>a+num(e.amount),0))}</div><div class="s">${list.length} жазба</div></div><div class="tile"><div class="t">Әмияндардан</div><div class="v">${fmt(list.filter(e=>!isOwn(e)).reduce((a,e)=>a+num(e.amount),0))}</div><div class="s">Барлығы ${fmt(tot)}</div></div></div>
   <div class="chips" style="margin-top:12px">${usedCats.map(k=>`<button class="${k===expFilter?"on":""}" onclick="expFilter='${esc(k)}';render()">${esc(k)}</button>`).join("")}</div>
   ${Object.keys(groups).length?Object.entries(groups).map(([d,es])=>`<div class="sec">${dmy(d)}<span>${fmt(es.reduce((a,e)=>a+num(e.amount),0))}</span></div><div class="card">${es.map(expRow).join("")}</div>`).join(""):'<div class="card"><div class="empty">Шығын жоқ</div></div>'}`;
 }
-let pickedCat="Тамақ";
-function expForm(e){pickedCat=e.cat||"Тамақ";return `${field("Сома (₸)","fAmt",e.amount||"","number",'class="bigin" placeholder="0" autofocus')}
+let pickedCat="Тамақ",pickedSrc="own";
+function expForm(e){pickedCat=e.cat||"Тамақ";pickedSrc=e.src||"own";return `${field("Сома (₸)","fAmt",e.amount||"","number",'class="bigin" placeholder="0" autofocus')}
+  <div class="field" style="padding-bottom:4px"><label>Қай ақшадан?</label><div class="catpick" id="srcpick" style="margin:6px 0">${[{id:"own",name:"Өз ақшам",color:"#1f3864"},...S.wallets].map(w=>`<button type="button" class="${w.id===pickedSrc?"on":""}" data-c="${w.color}" style="${w.id===pickedSrc?`background:${w.color};color:#fff`:""}" onclick="pickSrc(this,'${w.id}')">${esc(w.name)}${w.id==="own"?"":`<span style="opacity:.7;font-weight:500"> · ${fmt(wAmt(w))}</span>`}</button>`).join("")}</div></div>
   <div class="catpick" id="catpick">${CATS.map(([k])=>`<button type="button" class="${k===pickedCat?"on":""}" onclick="pickCat(this,'${k}')">${k}</button>`).join("")}</div>
   ${field("Сипаттама","fNote",e.note||"","text",'placeholder="мысалы: Magnum, такси үйге"')}
   ${field("Күні","fDate",e.date||todayIso(),"date")}`}
+function pickSrc(b,id){pickedSrc=id;document.querySelectorAll("#srcpick button").forEach(x=>{x.classList.remove("on");x.style.background="";x.style.color=""});b.classList.add("on");b.style.background=b.dataset.c;b.style.color="#fff"}
 function pickCat(b,k){pickedCat=k;document.querySelectorAll("#catpick button").forEach(x=>x.classList.remove("on"));b.classList.add("on")}
-function addExpense(){openSheet("Жаңа шығын",expForm({}),()=>{const a=num(val("fAmt"));if(a<=0){toast("Соманы жазыңыз");return false}S.exp.push({id:uid(),date:val("fDate")||todayIso(),amount:a,cat:pickedCat,note:val("fNote").trim()});toast("Шығын қосылды")})}
-function editExpense(id){const e=S.exp.find(x=>x.id===id);if(!e)return;openSheet("Шығынды өзгерту",expForm(e)+`<button class="btn danger" onclick="delExpense('${id}')">Өшіру</button>`,()=>{e.amount=num(val("fAmt"));e.cat=pickedCat;e.note=val("fNote").trim();e.date=val("fDate")||e.date})}
+function addExpense(){openSheet("Жаңа шығын",expForm({}),()=>{const a=num(val("fAmt"));if(a<=0){toast("Соманы жазыңыз");return false}S.exp.push({id:uid(),date:val("fDate")||todayIso(),amount:a,cat:pickedCat,src:pickedSrc,note:val("fNote").trim()});toast(pickedSrc==="own"?"Шығын қосылды":"«"+srcName({src:pickedSrc})+"» әмиянынан алынды")})}
+function editExpense(id){const e=S.exp.find(x=>x.id===id);if(!e)return;openSheet("Шығынды өзгерту",expForm(e)+`<button class="btn danger" onclick="delExpense('${id}')">Өшіру</button>`,()=>{e.amount=num(val("fAmt"));e.cat=pickedCat;e.src=pickedSrc;e.note=val("fNote").trim();e.date=val("fDate")||e.date})}
 function delExpense(id){if(!confirm("Бұл шығынды өшіру керек пе?"))return;S.exp=S.exp.filter(x=>x.id!==id);closeSheet();save();render();toast("Өшірілді")}
 
 function vMand(){
@@ -411,11 +417,12 @@ function editWallet(id){const isNew=!id;const w=isNew?{type:"manual",name:"",amo
  openSheet(isNew?"Жаңа әмиян":"Әмиянды өзгерту",`${field("Атауы","wName",w.name,"text",isNew?"autofocus":"")}${field("Ішіндегі сома (₸)","wAmt",isNew?"":wAmt(w),"number",isNew?"":"autofocus")}
  ${calc?`<p class="note">Бұл сома ${w.type==="himmet"?"жарналардан":"түсім мен іс-шаралардан"} өзі есептеледі (${fmt(wBase(w))}). Басқа сома жазсаңыз, айырмасы түзету ретінде сақталады${num(w.adj)?` — қазіргі түзету ${fmt(w.adj)}`:""}.</p>`:""}
  <div class="field"><label>Түсі</label><div class="catpick" id="colpick" style="margin:6px 0 2px">${WCOLORS.map(c=>`<button type="button" class="${c===w.color?"on":""}" style="width:34px;height:34px;padding:0;background:${c};${c===w.color?"outline:3px solid var(--text);outline-offset:2px":""}" onclick="pickColor(this,'${c}')"></button>`).join("")}</div></div>
+ ${!isNew&&wSpent(w)?`<div class="sec" style="margin-top:6px">Осы әмияннан шығындар<span>−${fmt(wSpent(w))}</span></div><div class="card" style="margin-bottom:10px">${S.exp.filter(e=>e.src===w.id).sort((a,b)=>b.date.localeCompare(a.date)).map(e=>`<div class="kv"><span>${dmy(e.date)} · ${esc(e.note||e.cat)}</span><b>${fmt(e.amount)}</b></div>`).join("")}</div>`:""}
  ${calc&&num(w.adj)?`<button class="btn ghost" onclick="wReset('${w.id}')">Түзетуді алып тастау</button>`:""}
  ${!isNew?`<div class="field"><label>Тез өзгерту: сома жазып, батырманы басыңыз</label><div class="row2"><input id="wDelta" type="number" inputmode="decimal" placeholder="0" style="flex:1"><button type="button" class="chip g" style="padding:8px 14px;font-size:14px" onclick="wDelta(1)">+ Салу</button><button type="button" class="chip r" style="padding:8px 14px;font-size:14px" onclick="wDelta(-1)">− Алу</button></div></div>`:""}
  ${!isNew?`<button class="btn danger" onclick="wDel('${w.id}')">Әмиянды өшіру</button>`:""}`,()=>{const n=val("wName").trim();if(!n){toast("Атауын жазыңыз");return false}const a=num(val("wAmt"));
   if(isNew){S.wallets.push({id:uid(),type:"manual",name:n,amount:a,color:pickedColor});toast("Әмиян қосылды");return}
-  w.name=n;w.color=pickedColor;if(calc){if(val("wAmt")!=="")w.adj=a-wBase(w)}else w.amount=a})}
+  w.name=n;w.color=pickedColor;if(calc){if(val("wAmt")!=="")w.adj=a-wBase(w)+wSpent(w)}else w.amount=a+wSpent(w)})}
 function wDelta(sg){const d=num(val("wDelta"))*sg;if(!d)return;$("wAmt").value=num(val("wAmt"))+d;$("wDelta").value="";toast((sg>0?"+":"−")+fmt(Math.abs(d)).replace("−","")+" · «Сақтау» басыңыз")}
 function pickColor(b,c){pickedColor=c;document.querySelectorAll("#colpick button").forEach(x=>x.style.outline="");b.style.outline="3px solid var(--text)";b.style.outlineOffset="2px"}
 function wRestore(){if(!hasW("himmet"))S.wallets.unshift({id:"him",type:"himmet",name:"Himmet",adj:0,color:"#15803d"});if(!hasW("students"))S.wallets.push({id:"stu",type:"students",name:"Оқушылар ақшасы",adj:0,color:"#0e7490"});closeSheet();save();render();toast("Қайтарылды")}
@@ -468,12 +475,12 @@ function settings(){openSheet("Баптаулар",`
   ${!hasW("himmet")||!hasW("students")?`<button class="btn ghost" onclick="wRestore()">Himmet / Оқушылар әмиянын қайтару</button>`:""}
   <p class="note">Барлық дерек тек осы iPhone-да сақталады, интернет пен тіркелу қажет емес. Айына бір рет сақтық көшірме жасап қойыңыз.</p>
   <button class="btn danger" onclick="resetAll()">Барлық деректі өшіру</button>
-  <p class="note" style="text-align:center">Әмиян · нұсқа 1.0</p>`,()=>{S.set.salary=num(val("sSal"));S.set.payday=Math.min(28,Math.max(1,num(val("sDay"))||27))})}
+  <p class="note" style="text-align:center">Әмиян · нұсқа 1.1</p>`,()=>{S.set.salary=num(val("sSal"));S.set.payday=Math.min(28,Math.max(1,num(val("sDay"))||27))})}
 async function shareFile(name,text,type){const blob=new Blob([text],{type});const file=new File([blob],name,{type});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:name});return}catch(e){if(e.name==="AbortError")return}}const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
 function exportJSON(){shareFile("amiyan-"+todayIso()+".json",JSON.stringify(S,null,1),"application/json")}
 function csvCell(v){v=String(v??"");return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 function exportCSV(){
-  let out="Күні,Санат,Сипаттама,Сома\n"+[...S.exp].sort((a,b)=>a.date.localeCompare(b.date)).map(e=>[dmy(e.date),e.cat,e.note,e.amount].map(csvCell).join(",")).join("\n");
+  let out="Күні,Санат,Сипаттама,Қай ақшадан,Сома\n"+[...S.exp].sort((a,b)=>a.date.localeCompare(b.date)).map(e=>[dmy(e.date),e.cat,e.note,srcName(e),e.amount].map(csvCell).join(",")).join("\n");
   out+="\n\nКезең,Басы,Соңы,Өткен айдан,Кіріс,Міндетті,Басқа шығын,Қарыз (таза),Қалдық\n"+S.periods.map((p,i)=>{const c=calc(i);return [pName(i),dmy(c.st),dmy(c.en),c.opening,c.income,c.mand,c.other,c.loans,c.closing].map(csvCell).join(",")}).join("\n");
   shareFile("amiyan-"+todayIso()+".csv","﻿"+out,"text/csv")}
 $("fileIn").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.periods||!d.set)throw 0;if(!confirm("Қазіргі деректер көшірмедегімен ауыстырылады. Жалғастыру керек пе?"))return;S=d;save();closeSheet();view=null;render();toast("Қалпына келтірілді")}catch(err){toast("Файл дұрыс емес")}};r.readAsText(f);e.target.value=""};
