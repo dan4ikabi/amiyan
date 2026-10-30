@@ -15,7 +15,7 @@
 <style>
 :root{
   --bg:#f2f3f7; --card:#ffffff; --card2:#f7f8fb; --text:#0f172a; --muted:#6b7280; --line:#e6e8ef;
-  --brand:#1f3864; --brand2:#3a2a8c; --accent:#ffd666;
+  --brand:#1f3864; --brand2:#3a2a8c; --accent:#ffd666; --tabon:#1f3864; --tabon-d:#8fb1ff; --glow:rgba(31,56,100,.35);
   --green:#16a34a; --green-bg:#e8f6ee; --red:#dc2626; --red-bg:#fdecec; --orange:#d97706; --orange-bg:#fff4e0; --blue:#2563eb; --blue-bg:#e8f0fe;
   --shadow:0 1px 2px rgba(15,23,42,.06),0 4px 16px rgba(15,23,42,.06);
   --radius:18px;
@@ -25,6 +25,10 @@
   :root{ --bg:#0b0f1a; --card:#151b2b; --card2:#1b2234; --text:#eef1f7; --muted:#94a3b8; --line:#253047;
     --green-bg:#11291c; --red-bg:#2d1416; --orange-bg:#2c2110; --blue-bg:#14223f; --shadow:none; }
 }
+/* Түс палитралары */
+:root[data-theme="green"]{--brand:#065f46;--brand2:#0f766e;--accent:#fde68a;--tabon:#047857;--tabon-d:#6ee7b7;--glow:rgba(6,95,70,.35)}
+:root[data-theme="sunset"]{--brand:#9a3412;--brand2:#be185d;--accent:#fef08a;--tabon:#c2410c;--tabon-d:#fdba74;--glow:rgba(190,24,93,.30)}
+:root[data-theme="graphite"]{--brand:#111827;--brand2:#374151;--accent:#fbbf24;--tabon:#111827;--tabon-d:#fbbf24;--glow:rgba(17,24,39,.35)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;font-size:16px;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 body{min-height:100vh}
@@ -44,7 +48,7 @@ input,select,textarea{font:inherit;color:var(--text)}
 .period .pname small{color:var(--muted);font-size:12px}
 .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--blue-bg);color:var(--blue);margin-left:6px;vertical-align:middle}
 /* hero */
-.hero{border-radius:24px;padding:20px;color:#fff;background:linear-gradient(135deg,#1f3864 0%,#3a2a8c 100%);box-shadow:0 10px 30px rgba(31,56,100,.35);position:relative;overflow:hidden}
+.hero{border-radius:24px;padding:20px;color:#fff;background:linear-gradient(135deg,var(--brand) 0%,var(--brand2) 100%);box-shadow:0 10px 30px var(--glow);position:relative;overflow:hidden}
 .hero:after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.07)}
 .hero .lbl{font-size:13px;opacity:.8;font-weight:600}
 .hero .big{font-size:38px;font-weight:800;letter-spacing:-1px;margin:4px 0 2px}
@@ -52,7 +56,7 @@ input,select,textarea{font:inherit;color:var(--text)}
 .hero .bar{height:8px;background:rgba(255,255,255,.18);border-radius:99px;margin-top:14px;overflow:hidden}
 .hero .bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
 .hero .barlbl{display:flex;justify-content:space-between;font-size:12px;opacity:.8;margin-top:6px}
-.hero.hneg{background:linear-gradient(135deg,#7f1d1d 0%,#3a2a8c 100%)}
+.hero.hneg{background:linear-gradient(135deg,#7f1d1d 0%,var(--brand2) 100%)}
 /* grid tiles */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .tile{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);min-width:0}
@@ -77,7 +81,7 @@ input,select,textarea{font:inherit;color:var(--text)}
 .kv{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-bottom:1px solid var(--line)}
 .kv:last-child{border-bottom:0}
 .kv span{color:var(--muted);font-size:14px}
-.kv b{font-weight:700}
+.kv b{font-weight:700;white-space:nowrap;margin-left:10px}
 .chk{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none;transition:.15s}
 .chk.on{background:var(--green);border-color:var(--green)}
 .chk.on:after{content:"";width:7px;height:12px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
@@ -101,6 +105,11 @@ input,select,textarea{font:inherit;color:var(--text)}
 .chips::-webkit-scrollbar{display:none}
 .chips button{flex:none;padding:7px 12px;border-radius:99px;background:var(--card);box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--muted)}
 .chips button.on{background:var(--brand);color:#fff}
+.theme{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.theme button{background:var(--card);border-radius:16px;padding:10px 4px 8px;box-shadow:var(--shadow);font-size:12px;font-weight:600;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:6px}
+.theme button i{width:40px;height:40px;border-radius:50%;display:block;position:relative}
+.theme button i b{position:absolute;right:-2px;bottom:-2px;width:16px;height:16px;border-radius:50%;border:2px solid var(--card)}
+.theme button.on{outline:2.5px solid var(--tabon);color:var(--text)}
 .btn{display:block;width:100%;padding:14px;border-radius:14px;font-weight:700;text-align:center;background:var(--brand);color:#fff;margin-top:10px}
 .btn.ghost{background:var(--card);color:var(--blue);box-shadow:var(--shadow)}
 .btn.danger{background:var(--red-bg);color:var(--red)}
@@ -110,9 +119,9 @@ input,select,textarea{font:inherit;color:var(--text)}
 .tabs .in{max-width:560px;margin:0 auto;display:flex;height:var(--tabh)}
 .tabs button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--muted)}
 .tabs button svg{width:24px;height:24px}
-.tabs button.on{color:var(--brand)}
-@media (prefers-color-scheme: dark){.tabs button.on{color:#8fb1ff}}
-.fab{position:fixed;right:20px;bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 16px);z-index:21;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#1f3864,#3a2a8c);color:#fff;font-size:32px;font-weight:300;display:grid;place-items:center;box-shadow:0 8px 24px rgba(31,56,100,.45)}
+.tabs button.on{color:var(--tabon)}
+@media (prefers-color-scheme: dark){.tabs button.on{color:var(--tabon-d)}}
+.fab{position:fixed;right:20px;bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 16px);z-index:21;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-size:32px;font-weight:300;display:grid;place-items:center;box-shadow:0 8px 24px rgba(31,56,100,.45)}
 .fab:active{transform:scale(.94)}
 /* sheet */
 .mask{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40;opacity:0;pointer-events:none;transition:.2s}
@@ -121,7 +130,7 @@ input,select,textarea{font:inherit;color:var(--text)}
 .sheet.on{transform:none;visibility:visible}
 .sheet .grab{width:38px;height:5px;border-radius:9px;background:var(--line);margin:8px auto 2px}
 .sheet .sh{display:flex;justify-content:space-between;align-items:center;padding:6px 16px 10px}
-.sheet .sh b{font-size:18px}
+.sheet .sh b{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px}
 .sheet .sh button{color:var(--blue);font-weight:600}
 .sheet .sb{overflow:auto;padding:0 16px 18px}
 .field{background:var(--card);border-radius:14px;margin-bottom:10px;padding:10px 14px;box-shadow:var(--shadow)}
@@ -143,6 +152,14 @@ input,select,textarea{font:inherit;color:var(--text)}
 .mgrid button.due{background:var(--red-bg);color:var(--red)}
 .mgrid button.cur{outline:2px solid var(--brand)}
 .hidden{display:none!important}
+[onclick]{cursor:pointer;-webkit-user-select:none;user-select:none}
+.tile[onclick],.kv[onclick],.alert[onclick],.hero[onclick],.catbar[onclick]{transition:transform .12s,opacity .12s}
+.tile[onclick]:active,.alert[onclick]:active,.hero[onclick]:active{transform:scale(.97);opacity:.85}
+.kv[onclick]:active,.catbar[onclick]:active{background:var(--card2)}
+.tile{position:relative}
+.tile[onclick]:after{content:"›";position:absolute;right:12px;top:10px;font-size:20px;color:var(--muted);opacity:.6}
+.kv[onclick] b:after,.catbar[onclick] .h span:after{content:" ›";color:var(--muted);font-weight:400}
+.alert[onclick]>div{flex:1}.alert[onclick]:after{content:"›";font-size:20px;opacity:.6}
 </style>
 </head>
 <body>
@@ -159,7 +176,7 @@ const KEY="amiyan.v1";
 const MONTHS=["Қаңтар","Ақпан","Наурыз","Сәуір","Мамыр","Маусым","Шілде","Тамыз","Қыркүйек","Қазан","Қараша","Желтоқсан"];
 const MSHORT=["Қаң","Ақп","Нау","Сәу","Мам","Мау","Шіл","Там","Қыр","Қаз","Қар","Жел"];
 const CATS=[["Тамақ","#16a34a"],["Көлік","#0ea5e9"],["Тұрғын үй","#6366f1"],["Байланыс","#14b8a6"],["Бала","#ec4899"],["Киім","#a855f7"],["Денсаулық","#ef4444"],["Ойын-сауық","#f59e0b"],["Сыйлық","#f97316"],["Несие","#7c3aed"],["Himmet","#15803d"],["Резерв","#64748b"],["Белгісіз","#9ca3af"],["Басқа","#475569"]];
-const catColor=c=>(CATS.find(x=>x[0]===c)||["","#475569"])[1];
+const catColor=c=>{const f=CATS.find(x=>x[0]===c)||(typeof EXP_CATS!=="undefined"&&EXP_CATS.find(x=>x[0]===c));if(f)return f[1];const w=(typeof S!=="undefined"&&S&&S.wallets||[]).find(w=>w.name===c);return w&&w.color||"#475569"};
 const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=n=>{n=Math.round(+n||0);const s=Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g," ");return (n<0?"−":"")+s+" ₸"};
@@ -188,7 +205,8 @@ function seed(){
   const D=(kind,who,amount,date,due,note)=>({id:uid(),kind,who,amount,date,due,returned:false,note});
   return {
     v:1,
-    set:{salary:670000,payday:27,bank:616000,opening:0},
+    set:{salary:670000,opening:0},
+    bank:{base:616000,at:Date.now(),log:[]},
     periods:[{start:p0,salary:670000,other:0}],
     template,
     mand:{[p0]:template.map((t,i)=>({id:uid(),tid:t.id,name:t.name,cat:t.cat,amount:t.amount,paid:!!paid[i]}))},
@@ -202,7 +220,14 @@ function seed(){
   };
 }
 function defWallets(t,r){return [{id:"him",type:"himmet",name:"Himmet",adj:0,color:"#15803d"},{id:uid(),type:"manual",name:"Target",amount:t,color:"#2563eb"},{id:uid(),type:"manual",name:"Rehber",amount:r,color:"#d97706"},{id:"stu",type:"students",name:"Оқушылар ақшасы",adj:0,color:"#0e7490"}]}
-function migrate(){if(S.wallets&&!Array.isArray(S.wallets))S.wallets=defWallets(num(S.wallets.target),num(S.wallets.rehber))}
+// ---------- bank ledger ----------
+// Банк = соңғы рет қолмен жазылған сома (base, at) + сол уақыттан кейінгі барлық қозғалыс (log)
+function bankNow(){return num(S.bank.base)+S.bank.log.reduce((a,x)=>a+num(x.d),0)}
+function bankMove(d,t){d=Math.round(num(d));if(!d)return;S.bank.log.push({ts:Date.now(),d,t})}
+const isNewRec=r=>!!r&&num(r.ts)>num(S.bank.at); // жазба банк теңестірілгеннен кейін қосылған ба
+function migrate(){if(S.himmet&&S.himmet.me===undefined){const d=S.himmet.members.find(m=>/daniyar/i.test(m.name));S.himmet.me=d?d.id:null}
+if(!S.bank){S.bank={base:num(S.set["bank"]),at:Date.now(),log:[]};delete S.set["bank"]}
+if(S.wallets&&!Array.isArray(S.wallets))S.wallets=defWallets(num(S.wallets.target),num(S.wallets.rehber))}
 const WCOLORS=["#2563eb","#d97706","#15803d","#0e7490","#7c3aed","#db2777","#dc2626","#475569"];
 let S;
 function load(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):null}catch(e){return null}}
@@ -211,16 +236,29 @@ S=load()||seed();migrate();
 if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(()=>{})}
 
 // ---------- periods ----------
-function pEnd(i){return i<S.periods.length-1?addDays(S.periods[i+1].start,-1):addDays(addMonths(S.periods[i].start,1,S.set.payday),-1)}
+// Күтілетін жалақы күні = соңғы рет жалақы нақты түскен күн (айдың сол күні)
+function lastRealIdx(){for(let i=S.periods.length-1;i>=0;i--)if(!S.periods[i].planned)return i;return 0}
+function payDay(){return pd(S.periods[lastRealIdx()].start).getDate()}
+function pEnd(i){return i<S.periods.length-1?addDays(S.periods[i+1].start,-1):addDays(addMonths(S.periods[i].start,1,payDay()),-1)}
+function rekey(i,ns){const p=S.periods[i];if(p.start===ns)return;if(S.mand[p.start]){S.mand[ns]=S.mand[p.start];delete S.mand[p.start]}p.start=ns;initMand(ns)}
+// Жоспар айларының күндері ретпен тұрсын (әрқайсысы алдыңғысынан кейін)
+function cascade(from){for(let j=Math.max(1,from);j<S.periods.length;j++){const q=S.periods[j];if(q.planned&&q.start<=S.periods[j-1].start)rekey(j,addMonths(S.periods[j-1].start,1,payDay()))}}
 function pName(i){const d=pd(S.periods[i].start);return MONTHS[d.getMonth()]+" "+d.getFullYear()}
 function initMand(start){if(!S.mand[start])S.mand[start]=S.template.map(t=>({id:uid(),tid:t.id,name:t.name,cat:t.cat,amount:t.amount,paid:false}))}
 function ensurePeriods(){
-  let added=false;const t=todayIso();
-  while(t>pEnd(S.periods.length-1)){const last=S.periods[S.periods.length-1];const st=addMonths(last.start,1,S.set.payday);S.periods.push({start:st,salary:S.set.salary,other:0});initMand(st);added=true}
+  // Жалақы тек «Жаңа жалақы түсті» батырмасымен түседі. Күтілген күн өтіп кетсе, келесі ай ертеңге жылжиды.
+  let ch=false;const t=todayIso();
   S.periods.forEach(p=>initMand(p.start));
-  if(added)save();
+  const fi=S.periods.findIndex(p=>p.planned);
+  if(fi>0&&S.periods[fi].start<=t){rekey(fi,addDays(t,1));cascade(fi+1);ch=true}
+  if(ch)save();
 }
-function curIdx(){const t=todayIso();for(let i=S.periods.length-1;i>=0;i--)if(S.periods[i].start<=t)return i;return 0}
+// Алдағы айды жоспарлау үшін ашу (банкке әсер етпейді, күні келгенде жалақы өзі түседі)
+const MAX_AHEAD=24;
+function addPlannedPeriod(){const last=S.periods[S.periods.length-1];if(S.periods.length-curIdx()>MAX_AHEAD)return false;const st=addMonths(last.start,1,payDay());S.periods.push({start:st,salary:S.set.salary,other:0,planned:true});initMand(st);save();return true}
+const isFuture=i=>!!(S.periods[i]&&S.periods[i].planned);
+const net=c=>c.income-c.mand-c.other-c.loans; // осы айдың өз нәтижесі (өткен айдың қалдығынсыз)
+function curIdx(){return lastRealIdx()}
 let view=null;
 function calc(i){
   const p=S.periods[i],st=p.start,en=pEnd(i);
@@ -258,11 +296,20 @@ function students(){
 function wBase(w){return w.type==="himmet"?himmet().collected:w.type==="students"?students().bal:0}
 const isOwn=e=>!e.src||e.src==="own";
 function wSpent(w){return S.exp.filter(e=>e.src===w.id).reduce((a,e)=>a+num(e.amount),0)}
-function wAmt(w){return (w.type==="manual"?num(w.amount):wBase(w)+num(w.adj))-wSpent(w)}
-function srcName(e){if(isOwn(e))return "Өз ақшам";const w=S.wallets.find(x=>x.id===e.src);return w?w.name:"өшірілген әмиян"}
+function wAmtRaw(w){return (w.type==="manual"?num(w.amount):wBase(w)+num(w.adj))-wSpent(w)}
+function wAmt(w){return wAmtRaw(w)-(w.type==="himmet"?money().borrow:0)} // Himmet: қазір бары = болу керек − менің қарызым
+function srcName(e){if(isOwn(e))return "Жеке қаржым";const w=S.wallets.find(x=>x.id===e.src);return w?w.name:"өшірілген әмиян"}
 const hasW=t=>S.wallets.some(w=>w.type===t);
 const wName=t=>(S.wallets.find(w=>w.type===t)||{name:t}).name;
-function walletsTotal(){return S.wallets.reduce((a,w)=>a+wAmt(w),0)}
+// «Менің қаржым емес» = тек аманат әмияндардың қосындысы (notMine!==false)
+const isNotMine=w=>w.notMine!==false;
+// Өз ақшам минусқа кетсе, жетпеген сома Himmet-тен алынады және Himmet-ке қарызым болып жазылады (автоматты).
+// Жалақы түсіп, банк көбейгенде қарыз өзі азайып, Himmet қайта толады.
+function money(){const raw=S.wallets.filter(isNotMine).reduce((a,w)=>a+wAmtRaw(w),0);const ownRaw=bankNow()-raw;
+  const hw=S.wallets.find(w=>w.type==="himmet"&&isNotMine(w));const borrow=hw?Math.max(0,Math.min(wAmtRaw(hw),-ownRaw)):0;
+  return {raw,borrow,notMine:raw-borrow,own:ownRaw+borrow,himShould:hw?wAmtRaw(hw):0}}
+function walletsTotal(){return money().notMine}
+function payable(){return debtsSum("taken")+money().borrow}
 function debtsSum(kind){return S.debts.filter(d=>d.kind===kind&&!d.returned).reduce((a,d)=>a+num(d.amount),0)}
 
 // ---------- UI helpers ----------
@@ -284,12 +331,16 @@ const ICONS={
  debt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h11l-3-3M17 17H6l3 3"/></svg>',
  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'
 };
-const TABS=[["home","Басты"],["exp","Шығындар"],["mand","Міндетті"],["wal","Әмияндар"],["debt","Қарыздар"]];
-function renderTabs(){$("tabs").innerHTML=TABS.map(([k,l])=>`<button class="${S.ui.tab===k?"on":""}" onclick="go('${k}')">${ICONS[k]}<span>${l}</span></button>`).join("");$("fab").classList.toggle("hidden",!(S.ui.tab==="home"||S.ui.tab==="exp"))}
+const TABS=[["home","Басты"],["exp","Шығындар"],["mand","Төлемдер"],["wal","Әмияндар"],["debt","Қарыздар"]];
+function renderTabs(){$("tabs").innerHTML=TABS.map(([k,l])=>`<button class="${S.ui.tab===k?"on":""}" onclick="${k==="exp"?"expFilter='Барлығы';":""}go('${k}')">${ICONS[k]}<span>${l}</span></button>`).join("");$("fab").classList.toggle("hidden",!(S.ui.tab==="home"||S.ui.tab==="exp"))}
 function go(t){S.ui.tab=t;save();render();window.scrollTo(0,0)}
 function header(title){return `<div class="top"><h1>${title}</h1><button class="iconbtn" onclick="settings()" aria-label="Баптаулар">${ICONS.gear}</button></div>`}
-function periodBar(){const i=view,isCur=i===curIdx();return `<div class="period"><button onclick="shiftP(-1)" ${i===0?"disabled style='opacity:.3'":""}>‹</button><div class="pname"><b>${pName(i)}${isCur?'<span class="pill">қазір</span>':""}</b><small>${dmy(S.periods[i].start)} – ${dmy(pEnd(i))}</small></div><button onclick="shiftP(1)" ${i===S.periods.length-1?"disabled style='opacity:.3'":""}>›</button></div>`}
-function shiftP(d){view=Math.max(0,Math.min(S.periods.length-1,view+d));render()}
+function periodBar(){const i=view,isCur=i===curIdx(),fut=isFuture(i);return `<div class="period"><button onclick="shiftP(-1)" ${i===0?"disabled style='opacity:.3'":""}>‹</button><div class="pname" onclick="monthsSheet()"><b>${pName(i)}${isCur?'<span class="pill">қазір</span>':fut?'<span class="pill" style="background:var(--orange-bg);color:var(--orange)">жоспар</span>':""} <span style="color:var(--muted);font-weight:400">▾</span></b><small>${dmy(S.periods[i].start)} – ${dmy(pEnd(i))}</small></div><button onclick="shiftP(1)">›</button></div>`}
+function shiftP(d){if(d>0&&view===S.periods.length-1&&!addPlannedPeriod()){toast("Алдағы "+MAX_AHEAD+" айдан артық емес");return}view=Math.max(0,Math.min(S.periods.length-1,view+d));render()}
+function monthsSheet(){const ci=curIdx();while(S.periods.length-1<ci+11)addPlannedPeriod();
+ openSheet("Айлар бойынша болжам",`<p class="note" style="margin-top:0">Әр айдың кірісі мен шығысы. «Ай нәтижесі» — сол айда қанша плюс не минус боласыз. «Ай соңында» — өткен айлардың қалдығымен бірге. Айды бассаңыз, соған өтесіз.</p>
+ <div class="card">${S.periods.map((p,i)=>{const c=calc(i),n=net(c);return `<div class="row" onclick="view=${i};closeSheet();render()" style="${i===view?"background:var(--card2)":""}"><div class="mid"><b>${pName(i)}${i===ci?' <span class="pill">қазір</span>':""}</b><small>Кіріс ${fmt(c.income)} · Шығыс ${fmt(c.mand+c.other+c.loans)}</small></div><div class="amt"><span class="${n<0?"neg":"pos"}">${n>0?"+":""}${fmt(n)}</span><small>Ай соңында ${fmt(c.closing)}</small></div></div>`}).join("")}</div>
+ <button class="btn ghost" onclick="if(addPlannedPeriod())monthsSheet();else toast('Алдағы ${MAX_AHEAD} айдан артық емес')">+ Тағы бір ай</button>`)}
 
 // ---------- views ----------
 function vHome(){
@@ -298,19 +349,21 @@ function vHome(){
   const perDay=c.closing>0?c.closing/daysLeft:0;
   const spent=c.mand+c.other+c.loans,avail=c.opening+c.income;
   const pct=avail>0?Math.min(100,spent/avail*100):100;
-  const wt=walletsTotal(),own=num(S.set.bank)-wt,rec=debtsSum("given"),pay=debtsSum("taken");
+  const M=money(),wt=M.notMine,own=M.own,rec=debtsSum("given"),pay=payable();
   const nakty=own+rec-pay-calc(curIdx()).unpaid;
   const H=himmet(),St=students();
   let alerts="";
-  if(own<0)alerts+=`<div class="alert r">⚠︎<div><b>Әмиян ақшасынан ${fmt(-own)} алынған.</b> Банкте әмияндарға тиесілі сомадан аз ақша бар. Келесі жалақыдан алдымен осыны толтырыңыз.</div></div>`;
+  {const np=S.periods.find(p=>p.planned);if(view===curIdx()&&np&&daysBetween(todayIso(),np.start)<=1)alerts+=`<div class="alert b" onclick="newSalary()">₸<div><b>Жалақы күтілуде (${dmy(np.start)})</b> Түссе, осы жерді басыңыз — жаңа ай басталады.</div></div>`}
+  if(M.borrow>0)alerts+=`<div class="alert r" onclick="debtSeg='taken';go('debt')">⚠︎<div><b>${esc(wName("himmet"))}-ке қарызым: ${fmt(M.borrow)}</b> Жеке қаржым жетпегендіктен шығындар ${esc(wName("himmet"))} ақшасынан жұмсалды. Жалақы түскенде алдымен осы қайтарылады.</div></div>`;
+  if(own<0)alerts+=`<div class="alert r" onclick="editBank()">⚠︎<div><b>Ақша жетпейді: ${fmt(own)}</b> ${esc(wName("himmet"))} әмиянында да қалмады. Банк сомасын тексеріңіз.</div></div>`;
   const dueSoon=S.debts.filter(d=>!d.returned&&d.due&&daysBetween(todayIso(),d.due)<=7);
-  if(dueSoon.length)alerts+=`<div class="alert o">⏰<div><b>${dueSoon.length} қарыздың мерзімі жақын не өтіп кетті:</b> ${dueSoon.map(d=>esc(d.who)).join(", ")}</div></div>`;
-  if(H.owed>0&&hasW("himmet"))alerts+=`<div class="alert b">ℹ︎<div>${esc(wName("himmet"))}: төленбеген жарна <b>${fmt(H.owed)}</b></div></div>`;
+  if(dueSoon.length)alerts+=`<div class="alert o" onclick="debtSeg='${dueSoon[0].kind}';go('debt')">⏰<div><b>${dueSoon.length} қарыздың мерзімі жақын не өтіп кетті:</b> ${dueSoon.map(d=>esc(d.who)).join(", ")}</div></div>`;
+  if(H.owed>0&&hasW("himmet"))alerts+=`<div class="alert b" onclick="walSeg='him';himYm=himFirstUnpaid();go('wal')">ℹ︎<div>${esc(wName("himmet"))}: төленбеген жарна <b>${fmt(H.owed)}</b></div></div>`;
   const byCat={};c.exps.forEach(e=>byCat[e.cat]=(byCat[e.cat]||0)+num(e.amount));
   const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);const maxC=cats.length?cats[0][1]:1;
   const recent=[...c.allExps].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
   return header("Әмиян")+periodBar()+`
-  <div class="hero ${c.closing<0?"hneg":""}">
+  <div class="hero ${c.closing<0?"hneg":""}" onclick="explainClosing()">
     <div class="lbl">Кезең соңындағы қалдық</div>
     <div class="big">${fmt(c.closing)}</div>
     <div class="sub">${c.closing>0?`Күніне ${fmt(perDay)} жұмсауға болады · ${daysLeft} күн`:`Бұл кезеңде ақша жетпейді · ${daysLeft} күн`}</div>
@@ -319,23 +372,40 @@ function vHome(){
   </div>
   ${alerts}
   <div class="grid">
-    <div class="tile"><div class="t">Өткен айдан</div><div class="v ${c.opening<0?"neg":""}">${fmt(c.opening)}</div></div>
-    <div class="tile" onclick="editPeriod()"><div class="t">Кіріс</div><div class="v">${fmt(c.income)}</div><div class="s">Жалақы ${fmt(S.periods[view].salary)}</div></div>
-    <div class="tile" onclick="go('mand')"><div class="t">Міндетті</div><div class="v">${fmt(c.mand)}</div><div class="s ${c.unpaid>0?"warn":"pos"}">${c.unpaid>0?"Төленбеген "+fmt(c.unpaid):"Бәрі төленді"}</div></div>
+    <div class="tile" onclick="${view>0?"shiftP(-1)":"editOpening()"}"><div class="t">Өткен айдан</div><div class="v ${c.opening<0?"neg":""}">${fmt(c.opening)}</div></div>
+    <div class="tile" onclick="go('mand')"><div class="t">Кіріс</div><div class="v">${fmt(c.income)}</div><div class="s">Жалақы ${fmt(S.periods[view].salary)}</div></div>
+    <div class="tile" onclick="go('mand')"><div class="t">Ай сайынғы төлемдер</div><div class="v">${fmt(c.mand)}</div><div class="s ${c.unpaid>0?"warn":"pos"}">${c.unpaid>0?"Төленбеген "+fmt(c.unpaid):"Бәрі төленді"}</div></div>
     <div class="tile" onclick="go('exp')"><div class="t">Басқа шығындар</div><div class="v">${fmt(c.other)}</div><div class="s">${c.exps.length} жазба</div></div>
   </div>
   <div class="sec">Шот және әмияндар</div>
   <div class="card">
-    <div class="kv" onclick="editBank()"><span>Банк шотында ✎</span><b>${fmt(S.set.bank)}</b></div>
-    <div class="kv" onclick="go('wal')"><span>Әмияндарда болу керек</span><b>${fmt(wt)}</b></div>
-    <div class="kv"><span>Өз ақшам (банк − әмияндар)</span><b class="${own<0?"neg":"pos"}">${fmt(own)}</b></div>
-    <div class="kv" onclick="go('debt')"><span>Маған қайтарылады / Менің қарызым</span><b>${fmt(rec)} / ${fmt(pay)}</b></div>
-    <div class="kv"><span>Нақты жағдай</span><b class="${nakty<0?"neg":"pos"}">${fmt(nakty)}</b></div>
+    <div class="kv" onclick="editBank()"><span>Банк шотында</span><b>${fmt(bankNow())}</b></div>
+    <div class="kv" onclick="go('wal')"><span>Менің қаржым емес</span><b>${fmt(wt)}</b></div>
+    <div class="kv" onclick="walSeg='sum';go('wal')"><span>Менің жеке қаржым</span><b class="${own<0?"neg":"pos"}">${fmt(own)}</b></div>
+    <div class="kv" onclick="debtSeg='given';go('debt')"><span>Маған қайтарылады</span><b class="pos">${fmt(rec)}</b></div>
+    <div class="kv" onclick="debtSeg='taken';go('debt')"><span>Менің қарызым</span><b class="neg">${fmt(pay)}</b></div>
+    <div class="kv" onclick="explainNakty()"><span>Нақты жағдай</span><b class="${nakty<0?"neg":"pos"}">${fmt(nakty)}</b></div>
   </div>
-  ${cats.length?`<div class="sec">Санаттар бойынша</div><div class="card">${cats.map(([k,v])=>`<div class="catbar"><div class="h"><b>${esc(k)}</b><span>${fmt(v)}</span></div><div class="b"><i style="width:${v/maxC*100}%;background:${catColor(k)}"></i></div></div>`).join("")}</div>`:""}
+  ${cats.length?`<div class="sec">Санаттар бойынша</div><div class="card">${cats.map(([k,v])=>`<div class="catbar" onclick="expFilter='${esc(k)}';go('exp')"><div class="h"><b>${esc(k)}</b><span>${fmt(v)}</span></div><div class="b"><i style="width:${v/maxC*100}%;background:${catColor(k)}"></i></div></div>`).join("")}</div>`:""}
   <div class="sec">Соңғы шығындар <button onclick="go('exp')">Барлығы</button></div>
   <div class="card">${recent.length?recent.map(expRow).join(""):'<div class="empty">Бұл кезеңде шығын жоқ. «+» батырмасын басыңыз.</div>'}</div>`;
 }
+function explainClosing(){const c=calc(view);openSheet("Қалдық қалай шықты",`<div class="card">
+ <div class="kv" onclick="${view>0?"closeSheet();shiftP(-1)":"closeSheet();editOpening()"}"><span>Өткен айдан</span><b>${fmt(c.opening)}</b></div>
+ <div class="kv" onclick="closeSheet();go('mand')"><span>+ Кіріс</span><b class="pos">${fmt(c.income)}</b></div>
+ <div class="kv" onclick="closeSheet();go('mand')"><span>− Ай сайынғы төлемдер</span><b class="neg">${fmt(-c.mand)}</b></div>
+ <div class="kv" onclick="closeSheet();go('exp')"><span>− Басқа шығындар</span><b class="neg">${fmt(-c.other)}</b></div>
+ <div class="kv" onclick="closeSheet();debtSeg='given';go('debt')"><span>− Осы кезеңде берген қарыз (таза)</span><b class="neg">${fmt(-c.loans)}</b></div>
+ <div class="kv"><span><b style="color:var(--text)">= Кезең соңындағы қалдық</b></span><b class="${c.closing<0?"neg":"pos"}">${fmt(c.closing)}</b></div></div>
+ <p class="note">Әр жолды бассаңыз, сол бетке өтесіз.</p>`)}
+function explainNakty(){const M=money(),wt=M.notMine,own=M.own,rec=debtsSum("given"),pay=payable(),u=calc(curIdx()).unpaid;openSheet("Нақты жағдай",`<div class="card">
+ <div class="kv" onclick="closeSheet();editBank()"><span>Банк шотында</span><b>${fmt(bankNow())}</b></div>
+ <div class="kv" onclick="closeSheet();walSeg='sum';go('wal')"><span>− Менің қаржым емес</span><b class="neg">${fmt(-wt)}</b></div>
+ <div class="kv" onclick="closeSheet();debtSeg='given';go('debt')"><span>+ Маған қайтарылады</span><b class="pos">${fmt(rec)}</b></div>
+ <div class="kv" onclick="closeSheet();debtSeg='taken';go('debt')"><span>− Менің қарызым${M.borrow?" ("+esc(wName("himmet"))+"-ке "+fmt(M.borrow)+" қоса)":""}</span><b class="neg">${fmt(-pay)}</b></div>
+ <div class="kv" onclick="closeSheet();go('mand')"><span>− Әлі төленбеген төлемдер</span><b class="neg">${fmt(-u)}</b></div>
+ <div class="kv"><span><b style="color:var(--text)">= Нақты жағдай</b></span><b class="${own+rec-pay-u<0?"neg":"pos"}">${fmt(own+rec-pay-u)}</b></div></div>
+ <p class="note">Барлық қарыз қайтарылып, ай сайынғы төлемдердің бәрі төленген соң қолыңызда қалатын ақша.</p>`)}
 function expRow(e){return `<div class="row" onclick="editExpense('${e.id}')"><div class="ic" style="background:${catColor(e.cat)}">${esc((e.cat||"?")[0])}</div><div class="mid"><b>${esc(e.note||e.cat)}</b><small>${esc(e.cat)} · ${dShort(e.date)}</small></div><div class="amt">${fmt(e.amount)}${isOwn(e)?"":`<small><span class="chip b" style="background:${(S.wallets.find(x=>x.id===e.src)||{}).color||"#64748b"};color:#fff">${esc(srcName(e))}</span></small>`}</div></div>`}
 let expFilter="Барлығы";
 function vExp(){
@@ -346,61 +416,82 @@ function vExp(){
   const groups={};list.forEach(e=>(groups[e.date]=groups[e.date]||[]).push(e));
   const tot=list.reduce((a,e)=>a+num(e.amount),0);
   return header("Шығындар")+periodBar()+`
-  <div class="grid" style="margin-top:0"><div class="tile"><div class="t">Өз ақшамнан</div><div class="v">${fmt(list.filter(isOwn).reduce((a,e)=>a+num(e.amount),0))}</div><div class="s">${list.length} жазба</div></div><div class="tile"><div class="t">Әмияндардан</div><div class="v">${fmt(list.filter(e=>!isOwn(e)).reduce((a,e)=>a+num(e.amount),0))}</div><div class="s">Барлығы ${fmt(tot)}</div></div></div>
+  <div class="grid" style="margin-top:0"><div class="tile"><div class="t">Жеке қаржымнан</div><div class="v">${fmt(list.filter(isOwn).reduce((a,e)=>a+num(e.amount),0))}</div><div class="s">${list.length} жазба</div></div><div class="tile"><div class="t">Әмияндардан</div><div class="v">${fmt(list.filter(e=>!isOwn(e)).reduce((a,e)=>a+num(e.amount),0))}</div><div class="s">Барлығы ${fmt(tot)}</div></div></div>
   <div class="chips" style="margin-top:12px">${usedCats.map(k=>`<button class="${k===expFilter?"on":""}" onclick="expFilter='${esc(k)}';render()">${esc(k)}</button>`).join("")}</div>
   ${Object.keys(groups).length?Object.entries(groups).map(([d,es])=>`<div class="sec">${dmy(d)}<span>${fmt(es.reduce((a,e)=>a+num(e.amount),0))}</span></div><div class="card">${es.map(expRow).join("")}</div>`).join(""):'<div class="card"><div class="empty">Шығын жоқ</div></div>'}`;
 }
-let pickedCat="Тамақ",pickedSrc="own";
-function expForm(e){pickedCat=e.cat||"Тамақ";pickedSrc=e.src||"own";return `${field("Сома (₸)","fAmt",e.amount||"","number",'class="bigin" placeholder="0" autofocus')}
-  <div class="field" style="padding-bottom:4px"><label>Қай ақшадан?</label><div class="catpick" id="srcpick" style="margin:6px 0">${[{id:"own",name:"Өз ақшам",color:"#1f3864"},...S.wallets].map(w=>`<button type="button" class="${w.id===pickedSrc?"on":""}" data-c="${w.color}" style="${w.id===pickedSrc?`background:${w.color};color:#fff`:""}" onclick="pickSrc(this,'${w.id}')">${esc(w.name)}${w.id==="own"?"":`<span style="opacity:.7;font-weight:500"> · ${fmt(wAmt(w))}</span>`}</button>`).join("")}</div></div>
-  <div class="catpick" id="catpick">${CATS.map(([k])=>`<button type="button" class="${k===pickedCat?"on":""}" onclick="pickCat(this,'${k}')">${k}</button>`).join("")}</div>
+// Шығын қосқанда таңдалатын 6 санат (міндетті емес). Әмияннан алынса, санат керек емес — әмиян атауы жазылады.
+const EXP_CATS=[["Тамақ","#16a34a"],["Көлік","#0ea5e9"],["Үй","#6366f1"],["Бала","#ec4899"],["Денсаулық","#ef4444"],["Басқа","#475569"]];
+let pickedCat="",pickedSrc="own";
+function expForm(e){pickedSrc=e.src||"own";pickedCat=pickedSrc==="own"?(e.cat||""):"";const cl=EXP_CATS.map(c=>c[0]);if(pickedCat&&!cl.includes(pickedCat))cl.push(pickedCat);return `${field("Сома (₸)","fAmt",e.amount||"","number",'class="bigin" placeholder="0" autofocus')}
+  <div class="field" style="padding-bottom:4px"><label>Қай ақшадан?</label><div class="catpick" id="srcpick" style="margin:6px 0">${[{id:"own",name:"Жеке қаржым",color:"var(--brand)"},...S.wallets].map(w=>`<button type="button" class="${w.id===pickedSrc?"on":""}" data-c="${w.color}" style="${w.id===pickedSrc?`background:${w.color};color:#fff`:""}" onclick="pickSrc(this,'${w.id}')">${esc(w.name)}${w.id==="own"?"":`<span style="opacity:.7;font-weight:500"> · ${fmt(wAmt(w))}</span>`}</button>`).join("")}</div></div>
+  <div class="field" id="catwrap" style="padding-bottom:4px;${pickedSrc==="own"?"":"display:none"}"><label>Санат <span style="font-weight:500">(міндетті емес)</span></label><div class="catpick" id="catpick" style="margin:6px 0">${cl.map(k=>`<button type="button" class="${k===pickedCat?"on":""}" onclick="pickCat(this,'${esc(k)}')">${esc(k)}</button>`).join("")}</div></div>
   ${field("Сипаттама","fNote",e.note||"","text",'placeholder="мысалы: Magnum, такси үйге"')}
   ${field("Күні","fDate",e.date||todayIso(),"date")}`}
-function pickSrc(b,id){pickedSrc=id;document.querySelectorAll("#srcpick button").forEach(x=>{x.classList.remove("on");x.style.background="";x.style.color=""});b.classList.add("on");b.style.background=b.dataset.c;b.style.color="#fff"}
-function pickCat(b,k){pickedCat=k;document.querySelectorAll("#catpick button").forEach(x=>x.classList.remove("on"));b.classList.add("on")}
-function addExpense(){openSheet("Жаңа шығын",expForm({}),()=>{const a=num(val("fAmt"));if(a<=0){toast("Соманы жазыңыз");return false}S.exp.push({id:uid(),date:val("fDate")||todayIso(),amount:a,cat:pickedCat,src:pickedSrc,note:val("fNote").trim()});toast(pickedSrc==="own"?"Шығын қосылды":"«"+srcName({src:pickedSrc})+"» әмиянынан алынды")})}
-function editExpense(id){const e=S.exp.find(x=>x.id===id);if(!e)return;openSheet("Шығынды өзгерту",expForm(e)+`<button class="btn danger" onclick="delExpense('${id}')">Өшіру</button>`,()=>{e.amount=num(val("fAmt"));e.cat=pickedCat;e.src=pickedSrc;e.note=val("fNote").trim();e.date=val("fDate")||e.date})}
-function delExpense(id){if(!confirm("Бұл шығынды өшіру керек пе?"))return;S.exp=S.exp.filter(x=>x.id!==id);closeSheet();save();render();toast("Өшірілді")}
+function pickSrc(b,id){pickedSrc=id;const cw=$("catwrap");if(cw)cw.style.display=id==="own"?"":"none";document.querySelectorAll("#srcpick button").forEach(x=>{x.classList.remove("on");x.style.background="";x.style.color=""});b.classList.add("on");b.style.background=b.dataset.c;b.style.color="#fff"}
+function pickCat(b,k){const off=pickedCat===k;pickedCat=off?"":k;document.querySelectorAll("#catpick button").forEach(x=>x.classList.remove("on"));if(!off)b.classList.add("on")}
+const finalCat=()=>pickedSrc!=="own"?srcName({src:pickedSrc}):(pickedCat||"Басқа");
+function addExpense(){openSheet("Жаңа шығын",expForm({}),()=>{const a=num(val("fAmt"));if(a<=0){toast("Соманы жазыңыз");return false}bankMove(-a,"Шығын: "+(val("fNote").trim()||finalCat()));S.exp.push({id:uid(),ts:Date.now(),date:val("fDate")||todayIso(),amount:a,cat:finalCat(),src:pickedSrc,note:val("fNote").trim()});toast(pickedSrc==="own"?"Шығын қосылды":"«"+srcName({src:pickedSrc})+"» әмиянынан алынды")})}
+function editExpense(id){const e=S.exp.find(x=>x.id===id);if(!e)return;openSheet("Шығынды өзгерту",expForm(e)+`<button class="btn danger" onclick="delExpense('${id}')">Өшіру</button>`,()=>{const na=num(val("fAmt"));if(isNewRec(e))bankMove(-(na-num(e.amount)),"Шығын түзетілді: "+(e.note||e.cat));e.amount=na;e.cat=finalCat();e.src=pickedSrc;e.note=val("fNote").trim();e.date=val("fDate")||e.date})}
+function delExpense(id){if(!confirm("Бұл шығынды өшіру керек пе?"))return;{const e=S.exp.find(x=>x.id===id);if(isNewRec(e))bankMove(num(e.amount),"Шығын өшірілді: "+(e.note||e.cat))}S.exp=S.exp.filter(x=>x.id!==id);closeSheet();save();render();toast("Өшірілді")}
 
 function vMand(){
   const c=calc(view),items=S.mand[S.periods[view].start]||[];
   const pct=c.mand?c.mandPaid/c.mand*100:0;
-  return header("Міндетті")+periodBar()+`
-  <div class="tile wide"><div class="t">Төленді ${fmt(c.mandPaid)} / ${fmt(c.mand)}</div><div class="catbar" style="padding:6px 0 0;border:0"><div class="b"><i style="width:${pct}%;background:var(--green)"></i></div></div><div class="s ${c.unpaid>0?"warn":"pos"}" style="margin-top:8px">${c.unpaid>0?"Әлі төлеу керек: "+fmt(c.unpaid):"Барлығы төленді"}</div></div>
-  <div class="sec">Тізім <button onclick="editMand()">+ Қосу</button></div>
-  <div class="card">${items.map(x=>`<div class="row ${x.paid?"done":""}"><div class="chk ${x.paid?"on":""}" onclick="togglePaid('${x.id}')"></div><div class="mid" onclick="editMand('${x.id}')"><b>${esc(x.name)}</b><small>${esc(x.cat)}</small></div><div class="amt" onclick="editMand('${x.id}')">${fmt(x.amount)}</div></div>`).join("")||'<div class="empty">Тізім бос</div>'}</div>
-  <p class="note">Дөңгелекті бассаңыз — «төленді» болып белгіленеді. Соманы бассаңыз — тек осы айға өзгертесіз немесе барлық келесі айларға сақтайсыз. Жаңа кезең басталғанда тізім үлгіден өзі жасалады.</p>`;
+  const p=S.periods[view],n=net(c);
+  return header("Төлемдер")+periodBar()+`
+  <div class="tile wide" style="margin-bottom:10px" onclick="monthsSheet()"><div class="t">${pName(view)} нәтижесі${isFuture(view)?" (болжам)":""}</div><div class="v ${n<0?"neg":"pos"}" style="font-size:26px">${n>0?"+":""}${fmt(n)}</div>
+   <div class="s">Кіріс ${fmt(c.income)} − төлемдер ${fmt(c.mand)} − басқа шығын ${fmt(c.other)}${c.loans?" − қарыз "+fmt(c.loans):""}</div>
+   <div class="s" style="margin-top:4px">Өткен айдан ${fmt(c.opening)} → ай соңында <b class="${c.closing<0?"neg":"pos"}">${fmt(c.closing)}</b></div></div>
+  <div class="sec">Кірістер</div>
+  <div class="card">
+   <div class="row" onclick="editIncome('salary')"><div class="ic" style="background:#16a34a">₸</div><div class="mid"><b>Жалақы</b><small>${p.planned?"Күтілуде · "+dmy(p.start):"Түсті · "+dmy(p.start)}</small></div><div class="amt pos">${fmt(p.salary)}</div></div>
+   <div class="row" onclick="editIncome('other')"><div class="ic" style="background:#0d9488">+</div><div class="mid"><b>Басқа кіріс</b><small>${num(p.other)?"Қосымша табыс":"Жоқ — басып қосыңыз"}</small></div><div class="amt ${num(p.other)?"pos":""}">${fmt(p.other)}</div></div>
+  </div>
+  <div class="tile wide" style="margin-top:12px"><div class="t">Төленді ${fmt(c.mandPaid)} / ${fmt(c.mand)}</div><div class="catbar" style="padding:6px 0 0;border:0"><div class="b"><i style="width:${pct}%;background:var(--green)"></i></div></div><div class="s ${c.unpaid>0?"warn":"pos"}" style="margin-top:8px">${c.unpaid>0?"Әлі төлеу керек: "+fmt(c.unpaid):"Барлығы төленді"}</div></div>
+  <div class="sec">Ай сайынғы төлемдер <button onclick="editMand()">+ Қосу</button></div>
+  <div class="card">${items.map(x=>`<div class="row ${x.paid?"done":""}"><div class="chk ${x.paid?"on":""}" onclick="togglePaid('${x.id}')"></div><div class="mid" onclick="editMand('${x.id}')"><b>${esc(x.name)}</b><small>${esc(x.cat)}${x.cat==="Himmet"&&S.himmet.me?" · "+esc(wName("himmet"))+" әмиянына түседі":""}</small></div><div class="amt" onclick="editMand('${x.id}')">${fmt(x.amount)}</div></div>`).join("")||'<div class="empty">Тізім бос</div>'}</div>
+  <p class="note">Дөңгелекті бассаңыз — «төленді» болып белгіленеді. Жолды бассаңыз — соманы тек осы айға немесе келесі айларға да өзгертесіз. ‹ › батырмаларымен не ай атауын басып кез келген айға өтіп, алдын ала жоспарлай аласыз.</p>`;
 }
-function togglePaid(id){const x=(S.mand[S.periods[view].start]||[]).find(i=>i.id===id);if(!x)return;x.paid=!x.paid;save();render();if(navigator.vibrate)navigator.vibrate(10)}
+function togglePaid(id){const x=(S.mand[S.periods[view].start]||[]).find(i=>i.id===id);if(!x)return;x.paid=!x.paid;x.pts=Date.now();bankMove(x.paid?-num(x.amount):num(x.amount),(x.paid?"Төленді: ":"Төлем қайтарылды: ")+x.name);
+  if(x.cat==="Himmet"&&S.himmet.me){const k=ym(S.periods[view].start),me=S.himmet.me,pay=S.himmet.pay[me]=S.himmet.pay[me]||{},old=num(pay[k]),nv=x.paid?num(x.amount):0;if(nv)pay[k]=nv;else delete pay[k];const m=S.himmet.members.find(m=>m.id===me);bankMove(nv-old,wName("himmet")+": "+(m?m.name:"")+" (мен)");if(nv!==old)toast(x.paid?wName("himmet")+" әмиянына "+fmt(nv)+" түсті":wName("himmet")+" әмиянынан алынды")}
+  save();render();if(navigator.vibrate)navigator.vibrate(10)}
 function editMand(id){
   const list=S.mand[S.periods[view].start];const x=id?list.find(i=>i.id===id):{name:"",cat:"Басқа",amount:"",paid:false};
-  openSheet(id?"Міндетті шығын":"Жаңа міндетті шығын",`${field("Атауы","mName",x.name,"text",id?"":"autofocus")}${field("Сома (₸)","mAmt",x.amount,"number")}
+  openSheet(id?"Ай сайынғы төлем":"Жаңа ай сайынғы төлем",`${field("Атауы","mName",x.name,"text",id?"":"autofocus")}${field("Сома (₸)","mAmt",x.amount,"number")}
    <div class="field"><label>Санат</label><select id="mCat">${CATS.map(([k])=>`<option ${k===x.cat?"selected":""}>${k}</option>`).join("")}</select></div>
    <div class="field toggle"><label style="margin:0">Келесі айларға да сақтау</label><input type="checkbox" id="mTpl" ${id?"":"checked"}></div>
    ${id?`<button class="btn danger" onclick="delMand('${id}')">Осы айдан өшіру</button>`:""}`,()=>{
     const name=val("mName").trim(),amt=num(val("mAmt")),cat=val("mCat"),tpl=$("mTpl").checked;if(!name){toast("Атауын жазыңыз");return false}
-    if(id){x.name=name;x.amount=amt;x.cat=cat}else{const n={id:uid(),tid:null,name,cat,amount:amt,paid:false};list.push(n);x.tid=null;Object.assign(x,n)}
+    if(id){if(x.paid&&num(x.pts)>num(S.bank.at))bankMove(-(amt-num(x.amount)),"Төлем түзетілді: "+name);x.name=name;x.amount=amt;x.cat=cat}else{const n={id:uid(),tid:null,name,cat,amount:amt,paid:false};list.push(n);x.tid=null;Object.assign(x,n)}
     if(tpl){let t=S.template.find(t=>t.id===x.tid);if(!t){t={id:uid(),name,cat,amount:amt};S.template.push(t);x.tid=t.id;if(!id){list[list.length-1].tid=t.id}}else{t.name=name;t.cat=cat;t.amount=amt}
       S.periods.forEach(p=>{if(p.start>S.periods[view].start&&S.mand[p.start]){const it=S.mand[p.start].find(i=>i.tid===t.id);if(it&&!it.paid){it.name=name;it.cat=cat;it.amount=amt}else if(!it)S.mand[p.start].push({id:uid(),tid:t.id,name,cat,amount:amt,paid:false})}})}
   });
 }
-function delMand(id){const st=S.periods[view].start;const x=S.mand[st].find(i=>i.id===id);const alsoTpl=x&&x.tid&&confirm("Келесі айлардан да алып тастау керек пе? (Жоқ — тек осы айдан)");S.mand[st]=S.mand[st].filter(i=>i.id!==id);if(alsoTpl){S.template=S.template.filter(t=>t.id!==x.tid)}closeSheet();save();render()}
+function delMand(id){const st=S.periods[view].start;const x=S.mand[st].find(i=>i.id===id);const alsoTpl=x&&x.tid&&confirm("Келесі айлардан да алып тастау керек пе? (Жоқ — тек осы айдан)");if(x&&x.paid&&num(x.pts)>num(S.bank.at))bankMove(num(x.amount),"Төлем өшірілді: "+x.name);S.mand[st]=S.mand[st].filter(i=>i.id!==id);if(alsoTpl){S.template=S.template.filter(t=>t.id!==x.tid);S.periods.forEach(p=>{if(p.start>st&&S.mand[p.start])S.mand[p.start]=S.mand[p.start].filter(i=>i.tid!==x.tid||i.paid)})}closeSheet();save();render()}
 
 let walSeg="sum",himYm=null;
+// Төлемеген адамы бар ең ерте ай (жоқ болса — осы ай)
+function himFirstUnpaid(){const H=S.himmet;for(const k of monthsFrom(H.start,curYm()))if(H.members.some(m=>num((H.pay[m.id]||{})[k])<num(m.monthly)))return k;return curYm()}
+// «Himmet жарнасы» (санаты Himmet) төлемі = менің (S.himmet.me) сол айдағы жарнам. Екеуі бір-бірімен байланысты.
+const isMe=mid=>!!S.himmet.me&&S.himmet.me===mid;
+function linkedMand(k){const p=S.periods.find(p=>ym(p.start)===k);return p?(S.mand[p.start]||[]).find(x=>x.cat==="Himmet"):null}
+function syncMandFromHimmet(k){const me=S.himmet.me;if(!me)return;const it=linkedMand(k);if(!it)return;const want=num((S.himmet.pay[me]||{})[k])>0;
+  if(it.paid!==want){it.paid=want;it.pts=Date.now();bankMove(want?-num(it.amount):num(it.amount),(want?"Төленді: ":"Төлем қайтарылды: ")+it.name)}}
 function vWal(){
-  const H=himmet(),St=students(),wt=walletsTotal(),own=num(S.set.bank)-wt;
+  const H=himmet(),St=students(),M=money(),wt=M.notMine,own=M.own;
   himYm=himYm||curYm();if((walSeg==="him"&&!hasW("himmet"))||(walSeg==="stu"&&!hasW("students")))walSeg="sum";
   let body="";
   if(walSeg==="sum"){
-    body=`<div class="sec" style="margin-top:4px">Әмияндар <button onclick="editWallet()">+ Жаңа әмиян</button></div><div class="card">${S.wallets.map(w=>{let sub="Басып атын/сомасын өзгертіңіз";if(w.type==="himmet")sub=`${H.paidThis}/${H.count} осы ай төледі${H.owed?" · қарыз "+fmt(H.owed):""}`;if(w.type==="students")sub=St.pending?"Әлі түспеген "+fmt(St.pending):"Барлығы түсті";return `<div class="row"><div class="ic" style="background:${w.color||"#475569"}" onclick="editWallet('${w.id}')">${esc((w.name||"?")[0].toUpperCase())}</div><div class="mid" onclick="${w.type==="himmet"?"walSeg='him';render()":w.type==="students"?"walSeg='stu';render()":`editWallet('${w.id}')`}"><b>${esc(w.name)}</b><small>${sub}</small></div><div class="amt" onclick="editWallet('${w.id}')">${fmt(wAmt(w))}<small>✎ өзгерту</small></div></div>`}).join("")}</div>
+    body=`<div class="sec" style="margin-top:4px">Әмияндар <button onclick="editWallet()">+ Жаңа әмиян</button></div><div class="card">${S.wallets.map(w=>{let sub=isNotMine(w)?"Менің қаржым емес":"Жеке қаржым";if(w.type==="himmet")sub=M.borrow?`Болу керек ${fmt(M.himShould)} · менің қарызым ${fmt(M.borrow)}`:`${H.paidThis}/${H.count} осы ай төледі${H.owed?" · төленбеген жарна "+fmt(H.owed):""}`;if(w.type==="students")sub=St.pending?"Әлі түспеген "+fmt(St.pending):"Барлығы түсті";return `<div class="row"><div class="ic" style="background:${w.color||"#475569"}" onclick="editWallet('${w.id}')">${esc((w.name||"?")[0].toUpperCase())}</div><div class="mid" onclick="${w.type==="himmet"?"walSeg='him';render()":w.type==="students"?"walSeg='stu';render()":`editWallet('${w.id}')`}"><b>${esc(w.name)}</b><small>${sub}</small></div><div class="amt" onclick="editWallet('${w.id}')">${fmt(wAmt(w))}<small>✎ өзгерту</small></div></div>`}).join("")}</div>
     <div class="sec">Тексеру</div>
-    <div class="card"><div class="kv"><span>Әмияндарда болу керек</span><b>${fmt(wt)}</b></div><div class="kv" onclick="editBank()"><span>Банк шотында ✎</span><b>${fmt(S.set.bank)}</b></div><div class="kv"><span>${own<0?"Жетпейді":"Артық (өз ақшаңыз)"}</span><b class="${own<0?"neg":"pos"}">${fmt(own)}</b></div></div>
-    ${own<0?`<p class="note">Әмияндағы ақша аманат. Жетпеген ${fmt(-own)} келесі жалақыдан бірінші кезекте толтырылуы керек.</p>`:""}`;
+    <div class="card"><div class="kv"><span>Менің қаржым емес</span><b>${fmt(wt)}</b></div><div class="kv" onclick="editBank()"><span>Банк шотында</span><b>${fmt(bankNow())}</b></div><div class="kv"><span>Менің жеке қаржым</span><b class="${own<0?"neg":"pos"}">${fmt(own)}</b></div>${M.borrow?`<div class="kv" onclick="debtSeg='taken';go('debt')"><span>${esc(wName("himmet"))}-ке қарызым</span><b class="neg">${fmt(M.borrow)}</b></div>`:""}</div>
+    ${M.borrow?`<p class="note">${esc(wName("himmet"))} — аманат ақша. Жеке қаржым жетпегендіктен одан ${fmt(M.borrow)} жұмсалды. Жалақы түскенде бұл қарыз өзі жабылып, ${esc(wName("himmet"))} қайта толады.</p>`:""}`;
   } else if(walSeg==="him"){
     const ms=monthsFrom(S.himmet.start,addMonths(curYm()+"-01",3).slice(0,7));
-    body=`<div class="grid" style="margin-top:0"><div class="tile" onclick="editWallet('him')"><div class="t">Жиналған ✎</div><div class="v pos">${fmt(wAmt(S.wallets.find(w=>w.type==="himmet")||{type:"himmet"}))}</div>${num((S.wallets.find(w=>w.type==="himmet")||{}).adj)?'<div class="s">түзетумен</div>':""}</div><div class="tile"><div class="t">Төленбеген</div><div class="v ${H.owed?"neg":""}">${fmt(H.owed)}</div></div><div class="tile"><div class="t">Айына</div><div class="v">${fmt(H.monthly)}</div></div><div class="tile"><div class="t">${ymName(curYm())}</div><div class="v">${H.paidThis} / ${H.count}</div></div></div>
+    body=`<div class="grid" style="margin-top:0"><div class="tile" onclick="editWallet('him')"><div class="t">Қазір бар</div><div class="v ${M.borrow?"warn":"pos"}">${fmt(wAmt(S.wallets.find(w=>w.type==="himmet")||{type:"himmet"}))}</div><div class="s">${M.borrow?"Болу керек "+fmt(M.himShould):"Жиналған"}</div></div><div class="tile"><div class="t">Төленбеген</div><div class="v ${H.owed?"neg":""}">${fmt(H.owed)}</div></div><div class="tile"><div class="t">Айына</div><div class="v">${fmt(H.monthly)}</div></div><div class="tile"><div class="t">${ymName(curYm())}</div><div class="v">${H.paidThis} / ${H.count}</div></div></div>
     <div class="sec">Ай</div><div class="chips">${ms.map(k=>`<button class="${k===himYm?"on":""}" onclick="himYm='${k}';render()">${ymName(k)}</button>`).join("")}</div>
-    <div class="card">${S.himmet.members.map(m=>{const p=num((S.himmet.pay[m.id]||{})[himYm]);const st=p>=num(m.monthly)?'<span class="chip g">Төледі</span>':p>0?'<span class="chip o">Жартылай</span>':(himYm<=curYm()?'<span class="chip r">Төлемеді</span>':'<span class="chip b">Күтілуде</span>');return `<div class="row"><div class="chk ${p>=num(m.monthly)?"on":""}" onclick="himToggle('${m.id}')"></div><div class="mid" onclick="himEdit('${m.id}')"><b>${esc(m.name)}</b><small>Жарна ${fmt(m.monthly)}</small></div><div class="amt" onclick="himEdit('${m.id}')">${p?fmt(p):"—"}<small>${st}</small></div></div>`}).join("")}</div>
+    <div class="card">${[...S.himmet.members].sort((a,b)=>(num((S.himmet.pay[a.id]||{})[himYm])>=num(a.monthly))-(num((S.himmet.pay[b.id]||{})[himYm])>=num(b.monthly))).map(m=>{const p=num((S.himmet.pay[m.id]||{})[himYm]);const st=p>=num(m.monthly)?'<span class="chip g">Төледі</span>':p>0?'<span class="chip o">Жартылай</span>':(himYm<=curYm()?'<span class="chip r">Төлемеді</span>':'<span class="chip b">Күтілуде</span>');return `<div class="row"><div class="chk ${p>=num(m.monthly)?"on":""}" onclick="himToggle('${m.id}')"></div><div class="mid" onclick="himEdit('${m.id}')"><b>${esc(m.name)}${isMe(m.id)?' <span class="chip b">мен</span>':""}</b><small>Жарна ${fmt(m.monthly)}</small></div><div class="amt" onclick="himEdit('${m.id}')">${p?fmt(p):"—"}<small>${st}</small></div></div>`}).join("")}</div>
     <button class="btn ghost" onclick="himMember()">+ Адам қосу</button>`;
   } else {
     const ms=monthsFrom(S.students.start,addMonths(curYm()+"-01",4).slice(0,7));
@@ -414,58 +505,83 @@ function vWal(){
 }
 let pickedColor;
 function editWallet(id){const isNew=!id;const w=isNew?{type:"manual",name:"",amount:"",color:WCOLORS[S.wallets.length%WCOLORS.length]}:S.wallets.find(x=>x.id===id);pickedColor=w.color;const calc=w.type!=="manual";
- openSheet(isNew?"Жаңа әмиян":"Әмиянды өзгерту",`${field("Атауы","wName",w.name,"text",isNew?"autofocus":"")}${field("Ішіндегі сома (₸)","wAmt",isNew?"":wAmt(w),"number",isNew?"":"autofocus")}
+ openSheet(isNew?"Жаңа әмиян":"Әмиянды өзгерту",`${field("Атауы","wName",w.name,"text",isNew?"autofocus":"")}${field(w.type==="himmet"?"Болу керек сома (₸)":"Ішіндегі сома (₸)","wAmt",isNew?"":wAmtRaw(w),"number",isNew?"":"autofocus")}${w.type==="himmet"&&money().borrow?`<p class="note">Қазір бары: ${fmt(wAmt(w))} (менің қарызым ${fmt(money().borrow)} шегерілген).</p>`:""}
  ${calc?`<p class="note">Бұл сома ${w.type==="himmet"?"жарналардан":"түсім мен іс-шаралардан"} өзі есептеледі (${fmt(wBase(w))}). Басқа сома жазсаңыз, айырмасы түзету ретінде сақталады${num(w.adj)?` — қазіргі түзету ${fmt(w.adj)}`:""}.</p>`:""}
+ <div class="field toggle"><label style="margin:0;font-size:15px;color:var(--text)">Банкке жаңадан түскен ақша<br><small style="color:var(--muted);font-weight:500">Белгілесеңіз, қосылған сома банк шотына да қосылады (алынса — азаяды). Белгілемесеңіз, бар ақшадан бөлінеді.</small></label><input type="checkbox" id="wBank"></div>
+ <div class="field toggle"><label style="margin:0;font-size:15px;color:var(--text)">Менің қаржым емес<br><small style="color:var(--muted);font-weight:500">Аманат ақша: «Менің қаржым емес» сомасына кіреді</small></label><input type="checkbox" id="wNM" ${isNotMine(w)?"checked":""}></div>
  <div class="field"><label>Түсі</label><div class="catpick" id="colpick" style="margin:6px 0 2px">${WCOLORS.map(c=>`<button type="button" class="${c===w.color?"on":""}" style="width:34px;height:34px;padding:0;background:${c};${c===w.color?"outline:3px solid var(--text);outline-offset:2px":""}" onclick="pickColor(this,'${c}')"></button>`).join("")}</div></div>
  ${!isNew&&wSpent(w)?`<div class="sec" style="margin-top:6px">Осы әмияннан шығындар<span>−${fmt(wSpent(w))}</span></div><div class="card" style="margin-bottom:10px">${S.exp.filter(e=>e.src===w.id).sort((a,b)=>b.date.localeCompare(a.date)).map(e=>`<div class="kv"><span>${dmy(e.date)} · ${esc(e.note||e.cat)}</span><b>${fmt(e.amount)}</b></div>`).join("")}</div>`:""}
  ${calc&&num(w.adj)?`<button class="btn ghost" onclick="wReset('${w.id}')">Түзетуді алып тастау</button>`:""}
  ${!isNew?`<div class="field"><label>Тез өзгерту: сома жазып, батырманы басыңыз</label><div class="row2"><input id="wDelta" type="number" inputmode="decimal" placeholder="0" style="flex:1"><button type="button" class="chip g" style="padding:8px 14px;font-size:14px" onclick="wDelta(1)">+ Салу</button><button type="button" class="chip r" style="padding:8px 14px;font-size:14px" onclick="wDelta(-1)">− Алу</button></div></div>`:""}
  ${!isNew?`<button class="btn danger" onclick="wDel('${w.id}')">Әмиянды өшіру</button>`:""}`,()=>{const n=val("wName").trim();if(!n){toast("Атауын жазыңыз");return false}const a=num(val("wAmt"));
-  if(isNew){S.wallets.push({id:uid(),type:"manual",name:n,amount:a,color:pickedColor});toast("Әмиян қосылды");return}
-  w.name=n;w.color=pickedColor;if(calc){if(val("wAmt")!=="")w.adj=a-wBase(w)+wSpent(w)}else w.amount=a+wSpent(w)})}
+  const nm=$("wNM").checked,toBank=$("wBank").checked;if(toBank&&val("wAmt")!==""){const d=a-(isNew?0:wAmtRaw(w));bankMove(d,(d>0?"Әмиянға түсті: ":"Әмияннан алынды: ")+n)}if(isNew){S.wallets.push({id:uid(),type:"manual",name:n,amount:a,color:pickedColor,notMine:nm});toast("Әмиян қосылды");return}
+  w.name=n;w.color=pickedColor;w.notMine=nm;if(calc){if(val("wAmt")!=="")w.adj=a-wBase(w)+wSpent(w)}else w.amount=a+wSpent(w)})}
 function wDelta(sg){const d=num(val("wDelta"))*sg;if(!d)return;$("wAmt").value=num(val("wAmt"))+d;$("wDelta").value="";toast((sg>0?"+":"−")+fmt(Math.abs(d)).replace("−","")+" · «Сақтау» басыңыз")}
 function pickColor(b,c){pickedColor=c;document.querySelectorAll("#colpick button").forEach(x=>x.style.outline="");b.style.outline="3px solid var(--text)";b.style.outlineOffset="2px"}
 function wRestore(){if(!hasW("himmet"))S.wallets.unshift({id:"him",type:"himmet",name:"Himmet",adj:0,color:"#15803d"});if(!hasW("students"))S.wallets.push({id:"stu",type:"students",name:"Оқушылар ақшасы",adj:0,color:"#0e7490"});closeSheet();save();render();toast("Қайтарылды")}
 function wReset(id){const w=S.wallets.find(x=>x.id===id);w.adj=0;closeSheet();save();render();toast("Түзету алынды")}
 function wDel(id){const w=S.wallets.find(x=>x.id===id);if(!confirm(`«${w.name}» әмиянын өшіру керек пе?`+(w.type!=="manual"?" (Төлемдер тарихы сақталады, Баптаулардан қайта қосуға болады)":"")))return;S.wallets=S.wallets.filter(x=>x.id!==id);closeSheet();save();render();toast("Өшірілді")}
-function himToggle(mid){const p=S.himmet.pay[mid]=S.himmet.pay[mid]||{};const m=S.himmet.members.find(x=>x.id===mid);if(num(p[himYm])>=num(m.monthly))delete p[himYm];else p[himYm]=num(m.monthly);save();render()}
-function himEdit(mid){const m=S.himmet.members.find(x=>x.id===mid);const p=S.himmet.pay[mid]=S.himmet.pay[mid]||{};openSheet(m.name,`${field(ymName(himYm)+" төлегені (₸)","hPay",p[himYm]||"","number","autofocus")}${field("Аты","hName",m.name)}${field("Ай сайынғы жарна (₸)","hMon",m.monthly,"number")}<button class="btn danger" onclick="himDel('${mid}')">Тізімнен өшіру</button>`,()=>{const v=num(val("hPay"));if(v>0)p[himYm]=v;else delete p[himYm];m.name=val("hName").trim()||m.name;m.monthly=num(val("hMon"))})}
+function himToggle(mid){const p=S.himmet.pay[mid]=S.himmet.pay[mid]||{};const m=S.himmet.members.find(x=>x.id===mid);const old=num(p[himYm]);if(old>=num(m.monthly))delete p[himYm];else p[himYm]=num(m.monthly);bankMove(num(p[himYm])-old,wName("himmet")+": "+m.name);if(isMe(mid))syncMandFromHimmet(himYm);save();render()}
+function himEdit(mid){const m=S.himmet.members.find(x=>x.id===mid);const p=S.himmet.pay[mid]=S.himmet.pay[mid]||{};openSheet(m.name,`${field(ymName(himYm)+" төлегені (₸)","hPay",p[himYm]||"","number","autofocus")}${field("Аты","hName",m.name)}${field("Ай сайынғы жарна (₸)","hMon",m.monthly,"number")}<div class="field toggle"><label style="margin:0;font-size:15px;color:var(--text)">Бұл — мен<br><small style="color:var(--muted);font-weight:500">«Төлемдер»-дегі Himmet жарнасымен байланысады</small></label><input type="checkbox" id="hMe" ${isMe(mid)?"checked":""}></div><button class="btn danger" onclick="himDel('${mid}')">Тізімнен өшіру</button>`,()=>{const v=num(val("hPay"));bankMove(v-num(p[himYm]),wName("himmet")+": "+m.name);if(v>0)p[himYm]=v;else delete p[himYm];m.name=val("hName").trim()||m.name;m.monthly=num(val("hMon"));if($("hMe").checked)S.himmet.me=mid;else if(isMe(mid))S.himmet.me=null;if(isMe(mid))syncMandFromHimmet(himYm)})}
 function himMember(){openSheet("Жаңа адам",field("Аты","hName","","text","autofocus")+field("Ай сайынғы жарна (₸)","hMon","","number"),()=>{const n=val("hName").trim();if(!n){toast("Атын жазыңыз");return false}S.himmet.members.push({id:uid(),name:n,monthly:num(val("hMon"))})})}
 function himDel(mid){if(!confirm("Бұл адамды және оның төлемдерін өшіру керек пе?"))return;S.himmet.members=S.himmet.members.filter(m=>m.id!==mid);delete S.himmet.pay[mid];closeSheet();save();render()}
-function stuToggle(k){const r=S.students.recv[k];if(r&&r.ok){delete S.students.recv[k]}else{S.students.recv[k]={ok:true,date:todayIso(),amount:num(S.students.count)*num(S.students.per)}}save();render()}
+function stuToggle(k){const r=S.students.recv[k];if(r&&r.ok){bankMove(-num(r.amount),"Оқушылар ақшасы қайтарылды ("+ymName(k)+")");delete S.students.recv[k]}else{S.students.recv[k]={ok:true,date:todayIso(),amount:num(S.students.count)*num(S.students.per)};bankMove(S.students.recv[k].amount,"Оқушылар ақшасы ("+ymName(k)+")")}save();render()}
 function stuSettings(){openSheet("Оқушылар",field("Оқушы саны","sCnt",S.students.count,"number","autofocus")+field("Бір оқушыға (₸)","sPer",S.students.per,"number")+`<p class="note">Өзгеріс әлі түспеген айларға қолданылады.</p>`,()=>{S.students.count=num(val("sCnt"));S.students.per=num(val("sPer"))})}
-function actEdit(id){const a=id?S.students.acts.find(x=>x.id===id):{name:"",date:todayIso(),n:"",amount:"",note:""};openSheet(id?"Іс-шара":"Жаңа іс-шара",`${field("Іс-шара атауы","aName",a.name,"text",id?"":"autofocus")}<div class="field"><div class="row2"><div style="flex:1"><label>Күні</label><input id="aDate" type="date" value="${a.date}"></div><div style="flex:1"><label>Қатысқан оқушы</label><input id="aN" type="number" inputmode="numeric" value="${esc(a.n)}"></div></div></div>${field("Жұмсалған сома (₸)","aAmt",a.amount,"number")}${field("Ескерту","aNote",a.note)}${id?`<button class="btn danger" onclick="actDel('${id}')">Өшіру</button>`:""}`,()=>{const n=val("aName").trim();if(!n){toast("Атауын жазыңыз");return false}const o={name:n,date:val("aDate")||todayIso(),n:num(val("aN")),amount:num(val("aAmt")),note:val("aNote")};if(id)Object.assign(a,o);else S.students.acts.push({id:uid(),...o})})}
-function actDel(id){if(!confirm("Өшіру керек пе?"))return;S.students.acts=S.students.acts.filter(x=>x.id!==id);closeSheet();save();render()}
+function actEdit(id){const a=id?S.students.acts.find(x=>x.id===id):{name:"",date:todayIso(),n:"",amount:"",note:""};openSheet(id?"Іс-шара":"Жаңа іс-шара",`${field("Іс-шара атауы","aName",a.name,"text",id?"":"autofocus")}<div class="field"><div class="row2"><div style="flex:1"><label>Күні</label><input id="aDate" type="date" value="${a.date}"></div><div style="flex:1"><label>Қатысқан оқушы</label><input id="aN" type="number" inputmode="numeric" value="${esc(a.n)}"></div></div></div>${field("Жұмсалған сома (₸)","aAmt",a.amount,"number")}${field("Ескерту","aNote",a.note)}${id?`<button class="btn danger" onclick="actDel('${id}')">Өшіру</button>`:""}`,()=>{const n=val("aName").trim();if(!n){toast("Атауын жазыңыз");return false}const o={name:n,date:val("aDate")||todayIso(),n:num(val("aN")),amount:num(val("aAmt")),note:val("aNote")};if(id){if(isNewRec(a))bankMove(-(o.amount-num(a.amount)),"Іс-шара түзетілді: "+n);Object.assign(a,o)}else{bankMove(-o.amount,"Іс-шара: "+n);S.students.acts.push({id:uid(),ts:Date.now(),...o})}})}
+function actDel(id){if(!confirm("Өшіру керек пе?"))return;{const a=S.students.acts.find(x=>x.id===id);if(isNewRec(a))bankMove(num(a.amount),"Іс-шара өшірілді: "+a.name)}S.students.acts=S.students.acts.filter(x=>x.id!==id);closeSheet();save();render()}
 
 let debtSeg="given";
 function vDebt(){
-  const own=num(S.set.bank)-walletsTotal();
+  const M=money();
   const list=S.debts.filter(d=>d.kind===debtSeg).sort((a,b)=>(a.returned-b.returned)||((a.due||"9")).localeCompare(b.due||"9"));
-  const open=list.filter(d=>!d.returned).reduce((a,d)=>a+num(d.amount),0);
+  const open=list.filter(d=>!d.returned).reduce((a,d)=>a+num(d.amount),0)+(debtSeg==="taken"?M.borrow:0);
   return header("Қарыздар")+`<div class="seg"><button class="${debtSeg==="given"?"on":""}" onclick="debtSeg='given';render()">Мен бердім</button><button class="${debtSeg==="taken"?"on":""}" onclick="debtSeg='taken';render()">Мен алдым</button></div>
-  <div class="grid" style="margin-top:0"><div class="tile"><div class="t">${debtSeg==="given"?"Маған қайтарылады":"Мен қайтарамын"}</div><div class="v ${debtSeg==="given"?"pos":"neg"}">${fmt(open)}</div></div><div class="tile"><div class="t">Himmet-ке қарыз</div><div class="v ${own<0?"neg":"pos"}">${fmt(Math.max(0,-own))}</div><div class="s">автоматты</div></div></div>
+  <div class="grid" style="margin-top:0"><div class="tile"><div class="t">${debtSeg==="given"?"Маған қайтарылады":"Мен қайтарамын"}</div><div class="v ${debtSeg==="given"?"pos":"neg"}">${fmt(open)}</div></div><div class="tile"><div class="t">${esc(wName("himmet"))}-ке қарыз</div><div class="v ${M.borrow?"neg":"pos"}">${fmt(M.borrow)}</div><div class="s">автоматты</div></div></div>
   <div class="sec">Тізім <button onclick="debtEdit()">+ Қосу</button></div>
-  <div class="card">${list.length?list.map(d=>`<div class="row ${d.returned?"done":""}"><div class="chk ${d.returned?"on":""}" onclick="debtToggle('${d.id}')"></div><div class="mid" onclick="debtEdit('${d.id}')"><b>${esc(d.who)}</b><small>${dmy(d.date)}${d.due?" → "+dmy(d.due):""}${d.note?" · "+esc(d.note):""}</small></div><div class="amt" onclick="debtEdit('${d.id}')">${fmt(d.amount)}<small>${statusChip(d)}</small></div></div>`).join(""):'<div class="empty">Тізім бос</div>'}</div>
+  <div class="card">${debtSeg==="taken"&&M.borrow?`<div class="row" onclick="explainBorrow()"><div class="ic" style="background:#15803d">H</div><div class="mid"><b>${esc(wName("himmet"))}</b><small>Жеке қаржым жетпегендіктен алынды · автоматты</small></div><div class="amt">${fmt(M.borrow)}<small><span class="chip o">Жалақыдан қайтады</span></small></div></div>`:""}${list.length||(debtSeg==="taken"&&M.borrow)?list.map(d=>`<div class="row ${d.returned?"done":""}"><div class="chk ${d.returned?"on":""}" onclick="debtToggle('${d.id}')"></div><div class="mid" onclick="debtEdit('${d.id}')"><b>${esc(d.who)}</b><small>${dmy(d.date)}${d.due?" → "+dmy(d.due):""}${d.note?" · "+esc(d.note):""}</small></div><div class="amt" onclick="debtEdit('${d.id}')">${fmt(d.amount)}<small>${statusChip(d)}</small></div></div>`).join(""):'<div class="empty">Тізім бос</div>'}</div>
   <p class="note">Дөңгелекті бассаңыз — «қайтарылды» болады. Жаңа берген/алған қарыз сол кезеңнің қалдығына әсер етеді.</p>`;
 }
-function debtToggle(id){const d=S.debts.find(x=>x.id===id);d.returned=!d.returned;save();render();toast(d.returned?"Қайтарылды деп белгіленді":"Қайтадан ашық")}
-function debtEdit(id){const d=id?S.debts.find(x=>x.id===id):{kind:debtSeg,who:"",amount:"",date:todayIso(),due:"",note:""};openSheet(id?"Қарыз":(debtSeg==="given"?"Қарыз бердім":"Қарыз алдым"),`${field(d.kind==="given"?"Кімге":"Кімнен","dWho",d.who,"text",id?"":"autofocus")}${field("Сома (₸)","dAmt",d.amount,"number")}<div class="field"><div class="row2"><div style="flex:1"><label>${d.kind==="given"?"Берген күні":"Алған күні"}</label><input id="dDate" type="date" value="${d.date}"></div><div style="flex:1"><label>Қайтару мерзімі</label><input id="dDue" type="date" value="${d.due||""}"></div></div></div>${field("Ескерту","dNote",d.note)}${id?`<button class="btn danger" onclick="debtDel('${id}')">Өшіру</button>`:""}`,()=>{const w=val("dWho").trim();if(!w){toast("Атын жазыңыз");return false}const o={who:w,amount:num(val("dAmt")),date:val("dDate")||todayIso(),due:val("dDue"),note:val("dNote")};if(id)Object.assign(d,o);else S.debts.push({id:uid(),kind:d.kind,returned:false,...o})})}
-function debtDel(id){if(!confirm("Өшіру керек пе?"))return;S.debts=S.debts.filter(x=>x.id!==id);closeSheet();save();render()}
+const dSign=d=>d.kind==="given"?-1:1; // қарыз берсем банк азаяды, алсам көбейеді
+function explainBorrow(){const M=money();openSheet(wName("himmet")+"-ке қарыз",`<div class="card">
+ <div class="kv" onclick="closeSheet();editBank()"><span>Банк шотында</span><b>${fmt(bankNow())}</b></div>
+ <div class="kv"><span>− Менің қаржым емес (болу керек)</span><b class="neg">${fmt(-M.raw)}</b></div>
+ <div class="kv"><span><b style="color:var(--text)">= Жетпей тұрған өз ақшам</b></span><b class="neg">${fmt(-M.borrow)}</b></div></div>
+ <p class="note">Жеке қаржым таусылғаннан кейінгі әр шығын ${esc(wName("himmet"))} ақшасынан жұмсалады да, осы қарыз көбейеді. Жалақы не басқа кіріс түскенде қарыз өзі азайып, ${esc(wName("himmet"))} қайта толады. Қолмен ештеңе жазудың қажеті жоқ.</p>
+ <div class="card"><div class="kv"><span>${esc(wName("himmet"))}: болу керек</span><b>${fmt(M.himShould)}</b></div><div class="kv"><span>${esc(wName("himmet"))}: қазір бар</span><b class="warn">${fmt(M.himShould-M.borrow)}</b></div></div>`)}
+function debtToggle(id){const d=S.debts.find(x=>x.id===id);d.returned=!d.returned;bankMove((d.returned?-1:1)*dSign(d)*num(d.amount),(d.returned?"Қарыз қайтарылды: ":"Қарыз қайта ашылды: ")+d.who);save();render();toast(d.returned?"Қайтарылды деп белгіленді":"Қайтадан ашық")}
+function debtEdit(id){const d=id?S.debts.find(x=>x.id===id):{kind:debtSeg,who:"",amount:"",date:todayIso(),due:"",note:""};openSheet(id?"Қарыз":(debtSeg==="given"?"Қарыз бердім":"Қарыз алдым"),`${field(d.kind==="given"?"Кімге":"Кімнен","dWho",d.who,"text",id?"":"autofocus")}${field("Сома (₸)","dAmt",d.amount,"number")}<div class="field"><div class="row2"><div style="flex:1"><label>${d.kind==="given"?"Берген күні":"Алған күні"}</label><input id="dDate" type="date" value="${d.date}"></div><div style="flex:1"><label>Қайтару мерзімі</label><input id="dDue" type="date" value="${d.due||""}"></div></div></div>${field("Ескерту","dNote",d.note)}${id?`<button class="btn danger" onclick="debtDel('${id}')">Өшіру</button>`:""}`,()=>{const w=val("dWho").trim();if(!w){toast("Атын жазыңыз");return false}const o={who:w,amount:num(val("dAmt")),date:val("dDate")||todayIso(),due:val("dDue"),note:val("dNote")};if(id){if(isNewRec(d)&&!d.returned)bankMove(dSign(d)*(o.amount-num(d.amount)),"Қарыз түзетілді: "+w);Object.assign(d,o)}else{const nd={id:uid(),ts:Date.now(),kind:d.kind,returned:false,...o};bankMove(dSign(nd)*nd.amount,(nd.kind==="given"?"Қарыз бердім: ":"Қарыз алдым: ")+w);S.debts.push(nd)}})}
+function debtDel(id){if(!confirm("Өшіру керек пе?"))return;{const d=S.debts.find(x=>x.id===id);if(isNewRec(d)&&!d.returned)bankMove(-dSign(d)*num(d.amount),"Қарыз өшірілді: "+d.who)}S.debts=S.debts.filter(x=>x.id!==id);closeSheet();save();render()}
 
 // ---------- settings / period ----------
-function editBank(){openSheet("Банк шотында",field("Қазіргі қалдық (₸)","bAmt",S.set.bank,"number","class='bigin' autofocus")+`<p class="note">Kaspi/Halyk қосымшасындағы нақты соманы жазыңыз. Әмияндармен салыстыру осыған қарап есептеледі.</p>`,()=>{S.set.bank=num(val("bAmt"))})}
-function editPeriod(){const p=S.periods[view];openSheet(pName(view),`${field("Жалақы (₸)","pSal",p.salary,"number","autofocus")}${field("Басқа кіріс (₸)","pOth",p.other,"number")}${field("Жалақы түскен күн (кезең басы)","pSt",p.start,"date",view===0?"":"")}${view===0?field("Бастапқы қалдық (бірінші кезең)","pOpen",S.set.opening,"number"):""}<p class="note">Кезең соңы келесі жалақы күніне дейін өзі есептеледі. Қалдық келесі айға автоматты ауысады.</p>`,()=>{p.salary=num(val("pSal"));p.other=num(val("pOth"));const ns=val("pSt");if(ns&&ns!==p.start){const prev=S.periods[view-1],next=S.periods[view+1];if((prev&&ns<=prev.start)||(next&&ns>=next.start)){toast("Күн көрші кезеңдермен сәйкес келмейді");return false}S.mand[ns]=S.mand[p.start];delete S.mand[p.start];p.start=ns}if(view===0)S.set.opening=num(val("pOpen"))})}
-function newSalary(){openSheet("Жаңа жалақы түсті",`${field("Сомасы (₸)","nsAmt",S.set.salary,"number","class='bigin' autofocus")}${field("Түскен күні","nsDate",todayIso(),"date")}<p class="note">Жаңа кезең басталады: өткен айдың қалдығы осыған ауысады, міндетті шығындар тізімі жаңадан жасалады, басты беттегі шығындар тазарады (ескілері сақталады).</p>`,()=>{const d=val("nsDate")||todayIso(),a=num(val("nsAmt"));const last=S.periods[S.periods.length-1];
-  const ex=S.periods.findIndex(p=>p.start===d);if(ex>=0){S.periods[ex].salary=a;view=ex;return}
-  if(d<=last.start){const i=S.periods.findIndex((p,j)=>p.start<=d&&(j===S.periods.length-1||S.periods[j+1].start>d));if(d>S.periods[i].start){S.periods.splice(i+1,0,{start:d,salary:a,other:0});initMand(d)}view=curIdx();return}
-  S.periods.push({start:d,salary:a,other:0});initMand(d);view=S.periods.length-1;toast("Жаңа кезең басталды")},"Бастау")}
+function editBank(){const L=[...S.bank.log].reverse();const at=new Date(num(S.bank.at));const when=dmy(iso(at))+" "+pad(at.getHours())+":"+pad(at.getMinutes());
+ openSheet("Банк шоты",`<div class="tile wide" style="margin-bottom:12px"><div class="t">Қазір банкте болу керек</div><div class="v" style="font-size:30px">${fmt(bankNow())}</div><div class="s">${when} кезінде ${fmt(S.bank.base)} деп жазылған${L.length?` · одан бері ${L.length} қозғалыс`:""}</div></div>
+ ${L.length?`<div class="sec" style="margin-top:0">Одан бергі қозғалыс</div><div class="card" style="margin-bottom:12px">${L.map(x=>{const d=new Date(x.ts);return `<div class="kv"><span>${esc(x.t)}<br><small>${dShort(iso(d))} ${pad(d.getHours())}:${pad(d.getMinutes())}</small></span><b class="${x.d<0?"neg":"pos"}">${x.d>0?"+":""}${fmt(x.d)}</b></div>`}).join("")}</div>`:""}
+ ${field("Kaspi/Halyk-тегі нақты сома (₸)","bAmt","","number",'placeholder="'+Math.round(bankNow())+'"')}
+ <p class="note">Шығын, төлем, қарыз, жарна, жалақы қосқанда банк сомасы өзі өзгереді. Kaspi/Halyk-пен сәйкес келмесе, ондағы нақты соманы жазып «Теңестіру» басыңыз — сол сәттен бастап қайта есептеледі.</p>`,()=>{if(val("bAmt")===""){toast("Соманы жазыңыз");return false}S.bank={base:num(val("bAmt")),at:Date.now(),log:[]};toast("Банк теңестірілді")},"Теңестіру")}
+function editIncome(kind){const p=S.periods[view],isSal=kind==="salary";
+ openSheet(isSal?"Жалақы — "+pName(view):"Басқа кіріс — "+pName(view),`${field("Сома (₸)","iAmt",p[kind]||"","number","class='bigin' autofocus")}
+ <div class="field toggle"><label style="margin:0;font-size:15px;color:var(--text)">Келесі айларға да<br><small style="color:var(--muted);font-weight:500">Алдағы айлардың болжамы да өзгереді</small></label><input type="checkbox" id="iFwd" ${isSal?"checked":""}></div>
+ ${p.planned?'<p class="note">Бұл ай әлі келмеген: жалақы күні келгенде банк сомасына өзі қосылады.</p>':""}`,()=>{
+  const a=num(val("iAmt"));if(!p.planned&&isNewRec(p))bankMove(a-num(p[kind]),(isSal?"Жалақы":"Басқа кіріс")+" түзетілді ("+pName(view)+")");p[kind]=a;
+  if($("iFwd").checked){S.periods.forEach((q,j)=>{if(j>view&&q.planned)q[kind]=a});if(isSal)S.set.salary=a}})}
+function editOpening(){openSheet("Бастапқы қалдық",field("Бірінші айдың басындағы қалдық (₸)","oAmt",S.set.opening,"number","class='bigin' autofocus")+`<p class="note">Қосымшаны бастаған айға дейін қолыңызда қалған (не жетпей тұрған) ақша. Келесі айлардың «Өткен айдан» сомасы өзі есептеледі.</p>`,()=>{S.set.opening=num(val("oAmt"))})}
+function newSalary(){const t=todayIso();openSheet("Жаңа жалақы түсті",`${field("Сомасы (₸)","nsAmt",S.set.salary,"number","class='bigin' autofocus")}
+ <div class="field"><label>Түскен күні</label><div style="font-size:17px;padding:2px 0">Бүгін, ${dmy(t)}</div></div>
+ <p class="note">Жаңа ай басталады: өткен айдың қалдығы осыған ауысады, ай сайынғы төлемдер тізімі жаңадан басталады, сома банк шотына қосылады.</p>`,()=>{const a=num(val("nsAmt"));if(a<=0){toast("Соманы жазыңыз");return false}
+  const ex=S.periods.findIndex(p=>p.start===t&&!p.planned);
+  if(ex>=0){const q=S.periods[ex];if(isNewRec(q))bankMove(a-num(q.salary),"Жалақы түзетілді");q.salary=a;view=ex;toast("Бүгінгі жалақы түзетілді");return}
+  let i=S.periods.findIndex(p=>p.planned);
+  if(i<0){S.periods.push({start:t,salary:a,other:0});i=S.periods.length-1;initMand(t)}else rekey(i,t);
+  const p=S.periods[i];p.planned=false;p.ts=Date.now();p.salary=a;bankMove(a+num(p.other),"Жалақы ("+dmy(t)+")");cascade(i+1);
+  view=i;toast("Жаңа ай басталды")},"Түсті")}
 function settings(){openSheet("Баптаулар",`
   <div class="card" style="margin-bottom:12px">
    <div class="row" onclick="newSalary()"><div class="ic" style="background:#16a34a">₸</div><div class="mid"><b>Жаңа жалақы түсті</b><small>Жаңа айды бастау</small></div></div>
-   <div class="row" onclick="editPeriod()"><div class="ic" style="background:#3a2a8c">✎</div><div class="mid"><b>Осы кезеңді өзгерту</b><small>${pName(view)}: жалақы, күні</small></div></div>
-   <div class="row" onclick="editBank()"><div class="ic" style="background:#2563eb">🏦</div><div class="mid"><b>Банк шотындағы сома</b><small>${fmt(S.set.bank)}</small></div></div>
+   <div class="row" onclick="editBank()"><div class="ic" style="background:#2563eb">🏦</div><div class="mid"><b>Банк шотындағы сома</b><small>${fmt(bankNow())}</small></div></div>
   </div>
-  ${field("Әдеттегі жалақы (₸)","sSal",S.set.salary,"number")}${field("Жалақы күні (айдың)","sDay",S.set.payday,"number")}
+  ${field("Әдеттегі жалақы (₸)","sSal",S.set.salary,"number")}
+  <div class="sec">Түсі</div>
+  <div class="theme">${THEMES.map(t=>`<button class="${(S.ui.theme||"blue")===t.id?"on":""}" onclick="setTheme('${t.id}')"><i style="background:linear-gradient(135deg,${t.c[0]},${t.c[1]})"><b style="background:${t.c[2]}"></b></i>${t.name}</button>`).join("")}</div>
   <div class="sec">Деректер</div>
   <div class="card">
    <div class="row" onclick="exportJSON()"><div class="ic" style="background:#0f766e">⇩</div><div class="mid"><b>Сақтық көшірме жасау</b><small>Файлды iCloud Drive-қа сақтаңыз</small></div></div>
@@ -475,19 +591,24 @@ function settings(){openSheet("Баптаулар",`
   ${!hasW("himmet")||!hasW("students")?`<button class="btn ghost" onclick="wRestore()">Himmet / Оқушылар әмиянын қайтару</button>`:""}
   <p class="note">Барлық дерек тек осы iPhone-да сақталады, интернет пен тіркелу қажет емес. Айына бір рет сақтық көшірме жасап қойыңыз.</p>
   <button class="btn danger" onclick="resetAll()">Барлық деректі өшіру</button>
-  <p class="note" style="text-align:center">Әмиян · нұсқа 1.1</p>`,()=>{S.set.salary=num(val("sSal"));S.set.payday=Math.min(28,Math.max(1,num(val("sDay"))||27))})}
+  <p class="note" style="text-align:center">Әмиян · нұсқа 1.2</p>`,()=>{S.set.salary=num(val("sSal"))})}
 async function shareFile(name,text,type){const blob=new Blob([text],{type});const file=new File([blob],name,{type});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:name});return}catch(e){if(e.name==="AbortError")return}}const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
 function exportJSON(){shareFile("amiyan-"+todayIso()+".json",JSON.stringify(S,null,1),"application/json")}
 function csvCell(v){v=String(v??"");return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 function exportCSV(){
   let out="Күні,Санат,Сипаттама,Қай ақшадан,Сома\n"+[...S.exp].sort((a,b)=>a.date.localeCompare(b.date)).map(e=>[dmy(e.date),e.cat,e.note,srcName(e),e.amount].map(csvCell).join(",")).join("\n");
-  out+="\n\nКезең,Басы,Соңы,Өткен айдан,Кіріс,Міндетті,Басқа шығын,Қарыз (таза),Қалдық\n"+S.periods.map((p,i)=>{const c=calc(i);return [pName(i),dmy(c.st),dmy(c.en),c.opening,c.income,c.mand,c.other,c.loans,c.closing].map(csvCell).join(",")}).join("\n");
+  out+="\n\nКезең,Басы,Соңы,Өткен айдан,Кіріс,Ай сайынғы төлемдер,Басқа шығын,Қарыз (таза),Қалдық\n"+S.periods.map((p,i)=>{const c=calc(i);return [pName(i),dmy(c.st),dmy(c.en),c.opening,c.income,c.mand,c.other,c.loans,c.closing].map(csvCell).join(",")}).join("\n");
   shareFile("amiyan-"+todayIso()+".csv","﻿"+out,"text/csv")}
 $("fileIn").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.periods||!d.set)throw 0;if(!confirm("Қазіргі деректер көшірмедегімен ауыстырылады. Жалғастыру керек пе?"))return;S=d;save();closeSheet();view=null;render();toast("Қалпына келтірілді")}catch(err){toast("Файл дұрыс емес")}};r.readAsText(f);e.target.value=""};
 function resetAll(){if(!confirm("Барлық дерек өшеді. Алдымен сақтық көшірме жасадыңыз ба?"))return;if(!confirm("Шынымен өшіру керек пе?"))return;localStorage.removeItem(KEY);S=seed();S.exp=[];S.debts=[];save();closeSheet();view=null;render()}
 
+// ---------- түс палитралары ----------
+const THEMES=[{id:"blue",name:"Көк",c:["#1f3864","#3a2a8c","#ffd666"],bar:"#1f3864"},{id:"green",name:"Жасыл",c:["#065f46","#0f766e","#fde68a"],bar:"#065f46"},{id:"sunset",name:"Шұғыла",c:["#9a3412","#be185d","#fef08a"],bar:"#9a3412"},{id:"graphite",name:"Графит",c:["#111827","#374151","#fbbf24"],bar:"#111827"}];
+function applyTheme(){const id=(S.ui&&S.ui.theme)||"blue";if(id==="blue")delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=id;const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=(THEMES.find(t=>t.id===id)||THEMES[0]).bar}
+function setTheme(id){S.ui.theme=id;save();applyTheme();document.querySelectorAll(".theme button").forEach((b,i)=>b.classList.toggle("on",THEMES[i].id===id));render()}
 // ---------- render ----------
 function render(){
+  applyTheme();
   ensurePeriods();
   if(view===null||view>=S.periods.length)view=curIdx();
   const t=S.ui.tab;
